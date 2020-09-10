@@ -2,39 +2,36 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Р’РѕР»С€РµР±РЅС‹Р№ РїСЂРѕРІРѕРґРЅРёРє</title>
+    <title>Волшебный проводник</title>
 </head>
 <body>
 <div style="text-align: center;">
     <h1>
-        РќР°С‡РёРЅР°Р№С‚Рµ СЃРѕР·РґР°РІР°С‚СЊ!
+        Начинайте создавать!
     </h1> </div>
-<center>
+<div style="text-align: center;">
     <form>
         <p><button>
-            <img src="images/createFile.png" alt="С„Р°Р№Р»" style="vertical-align:middle">
-            РЎРѕР·РґР°С‚СЊ С„Р°Р№Р»
+            <img src="/resources/images/createFile.png" alt="файл" style="vertical-align:middle">
+            Создать файл
         </button>
 
         <button>
-            <img src="images/createFolder.png" alt="РїР°РїРєР°" style="vertical-align:middle">
-            РЎРѕР·РґР°С‚СЊ РїР°РїРєСѓ
+            <img src="/resources/images/createFolder.png" alt="папка" style="vertical-align:middle">
+            Создать папку
         </button>
 
         <button>
-            <img src="images/open.png" alt="РѕС‚РєСЂС‹С‚СЊ" style="vertical-align:middle">
-            РћС‚РєСЂС‹С‚СЊ
+            <img src="/resources/images/open.png" alt="открыть" style="vertical-align:middle">
+            Открыть
         </button>
 
         <button>
-            <img src="images/delete-sign.png" alt="СѓРґР°Р»РёС‚СЊ" style="vertical-align:middle">
-            РЈРґР°Р»РёС‚СЊ
+            <img src="/resources/images/delete-sign.png" alt="удалить" style="vertical-align:middle">
+            Удалить
         </button>
         </p>
     </form>
-</center>
-
-
-
+</div>
 </body>
 </html>
