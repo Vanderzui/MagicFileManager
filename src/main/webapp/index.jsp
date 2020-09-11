@@ -1,34 +1,35 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Волшебный проводник</title>
+    <title>Р’РѕР»С€РµР±РЅС‹Р№ РїСЂРѕРІРѕРґРЅРёРє</title>
 </head>
 <body>
 <div style="text-align: center;">
     <h1>
-        Начинайте создавать!
+        Start to create!
     </h1> </div>
 <div style="text-align: center;">
     <form>
         <p><button>
-            <img src="/resources/images/createFile.png" alt="файл" style="vertical-align:middle">
-            Создать файл
+            <img src="<c:url value="/resources/images/createFile.png"/>" alt="С„Р°Р№Р»" style="vertical-align:middle">
+            New File
         </button>
 
         <button>
-            <img src="/resources/images/createFolder.png" alt="папка" style="vertical-align:middle">
-            Создать папку
+            <img src="<c:url value="/resources/images/createFolder.png"/>" alt="РїР°РїРєР°" style="vertical-align:middle">
+            New Directory
         </button>
 
         <button>
-            <img src="/resources/images/open.png" alt="открыть" style="vertical-align:middle">
-            Открыть
+            <img src="<c:url value="/resources/images/open.png"/>" alt="РѕС‚РєСЂС‹С‚СЊ" style="vertical-align:middle">
+            Open
         </button>
 
         <button>
-            <img src="/resources/images/delete-sign.png" alt="удалить" style="vertical-align:middle">
-            Удалить
+            <img src="<c:url value="/resources/images/delete-sign.png"/>" alt="СѓРґР°Р»РёС‚СЊ" style="vertical-align:middle">
+            Delete
         </button>
         </p>
     </form>

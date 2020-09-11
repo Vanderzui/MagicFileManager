@@ -1,7 +1,11 @@
 package com.service;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SimpleFileService implements FileService {
 
@@ -30,14 +34,8 @@ public class SimpleFileService implements FileService {
     @Override
     public void delete(String path, String fileName) {
         File file = new File(path, fileName);
-        if (file.exists()) {                      //какая-то хрень
-            if (file.isFile()) {
-                file.delete();
-            } else if (file.isDirectory()) {   //так и в чем отличие
-                file.delete();
-            }
-        } else {
-            System.out.println("Такого чего-то не существует");    //???
+        if (file.exists()) {
+            file.delete();
         }
     }
 
@@ -53,8 +51,9 @@ public class SimpleFileService implements FileService {
         }
     }
 
-
-    public void open(String path, String fileName) {
+    @Override
+    public void openFile(String path, String fileName) {
+        //писать проверку, что это файл??
         try (FileReader fileReader = new FileReader(new File(path, fileName))) {
             char[] buf = new char[256];
             int c;
@@ -69,6 +68,16 @@ public class SimpleFileService implements FileService {
         }
     }
 
+    @Override
+    public List<String> openDirectory(String path, String fileName) {
+        File dir = new File(path, fileName);
+        //Надо if(dir.isDirectory?? или проверка будет выполняться гдето в дто??? типа файл ли это -> такой метод, или директория -> другой метод
+        String dirPath = dir.getAbsolutePath();
+        return Stream.of(new File(dirPath)
+                .listFiles())
+                .map(File::getName)
+                .collect(Collectors.toList());
+    }
 
     private void wrongOpen(String pathName, String fileName) {
         BufferedInputStream readFile = null;

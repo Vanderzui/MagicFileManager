@@ -1,5 +1,8 @@
 package com.service;
 
+import java.io.File;
+import java.util.List;
+
 public interface FileService {
      abstract void createFile(String path, String fileName);
 
@@ -9,5 +12,7 @@ public interface FileService {
 
      abstract void write(String path, String fileName, String text);
 
-     abstract void open(String path, String fileName);
+     abstract void openFile(String path, String fileName);
+
+     abstract List<String> openDirectory(String path, String fileName);
 }

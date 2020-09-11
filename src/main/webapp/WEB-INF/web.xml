@@ -13,13 +13,17 @@
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/magic</url-pattern>
     </servlet-mapping>
+
     <servlet-mapping>
-        <servlet-name>ControllerServlet</servlet-name>
-        <url-pattern>/resources/*</url-pattern>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/resources/images/*</url-pattern>
     </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>/index.jsp</welcome-file>
     </welcome-file-list>
+
+
 
 
 </web-app>
