@@ -14,5 +14,7 @@ public interface FileService {
 
      abstract void openFile(String path, String fileName);
 
-     abstract List<String> openDirectory(String path, String fileName);
+     abstract List<String> getFileNames(String path, String fileName);
+
+     abstract List<String> getDirectoryNames(String path, String fileName);
 }

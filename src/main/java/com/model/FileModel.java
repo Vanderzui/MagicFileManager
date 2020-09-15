@@ -8,8 +8,8 @@ public class FileModel {
     }
 
     public FileModel(String path, String fileName) {
-        this.fileName = fileName;
         this.path = path;
+        this.fileName = fileName;
     }
 
     public String getFileName() {

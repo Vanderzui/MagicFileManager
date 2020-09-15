@@ -1,4 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="java.io.PrintWriter" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Iterator" %>
+<%@ page import="com.service.SimpleFileService" %>
+
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -7,32 +13,54 @@
 </head>
 <body>
 <div style="text-align: center;">
+
+    <table>
+        <c:forEach items="${files}" var="file">
+            <tr>
+                <td><c:out value="${file}" /></td>
+                <a href="URL">...</a>
+            </tr>
+        </c:forEach>
+    </table>
+    <table>
+        <c:forEach items="${directories}" var="dir">
+            <tr>
+                <td><c:out value="${dir}" /></td>
+            </tr>
+        </c:forEach>
+    </table>
     <h1>
         Start to create!
-    </h1> </div>
-<div style="text-align: center;">
-    <form>
-        <p><button>
-            <img src="<c:url value="/resources/images/createFile.png"/>" alt="файл" style="vertical-align:middle">
-            New File
+    </h1>
+    <p>
+    <form method="get" action="название сервлета. где будет создание файла/директории">
+        <button onclick="location.href=''">
+            <img src="<c:url value="/images/createFile.png"/>" alt="файл" style="vertical-align:middle">
+            <br>New File/Directory
         </button>
-
-        <button>
-            <img src="<c:url value="/resources/images/createFolder.png"/>" alt="папка" style="vertical-align:middle">
-            New Directory
-        </button>
-
-        <button>
-            <img src="<c:url value="/resources/images/open.png"/>" alt="открыть" style="vertical-align:middle">
-            Open
-        </button>
-
-        <button>
-            <img src="<c:url value="/resources/images/delete-sign.png"/>" alt="удалить" style="vertical-align:middle">
-            Delete
-        </button>
-        </p>
     </form>
+
+    <form method="post" action="название сервлета. где будет создание директории">
+        <button onclick="location.href=''">
+            <img src="<c:url value="/images/createFolder.png"/>" alt="папка" style="vertical-align:middle">
+            <br>New Directory
+        </button>
+    </form>
+
+    <form method="put" action="название сервлета. где будет редактирование файла">
+        <button onclick="location.href='/magic/*'">
+            <img src="<c:url value="/images/open.png"/>" alt="открыть" style="vertical-align:middle">
+            <br>Open
+        </button>
+    </form>
+
+    <form method="delete" action="название сервлета. где будет удаление">
+        <button onclick="location.href=''">
+            <img src="<c:url value="/images/delete-sign.png"/>" alt="удалить" style="vertical-align:middle">
+            <br>Delete
+        </button>
+    </form>
+    </p>
 </div>
 </body>
 </html>

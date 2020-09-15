@@ -1,5 +1,8 @@
 package com.service;
 
+import com.converter.FileToModelConverter;
+import com.model.FileModel;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,7 +45,8 @@ public class SimpleFileService implements FileService {
 
     @Override
     public void write(String path, String fileName, String text) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File(path, fileName), true))) {
+        FileToModelConverter fTM = new FileToModelConverter();
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fTM.fileModelToFile(new FileModel(path, fileName)), true))) {
             writer.write(text);
             writer.newLine();
             writer.flush();
@@ -54,7 +58,8 @@ public class SimpleFileService implements FileService {
     @Override
     public void openFile(String path, String fileName) {
         //писать проверку, что это файл??
-        try (FileReader fileReader = new FileReader(new File(path, fileName))) {
+        FileToModelConverter fTM = new FileToModelConverter();
+        try (FileReader fileReader = new FileReader(fTM.fileModelToFile(new FileModel(path, fileName)))) {
             char[] buf = new char[256];
             int c;
             while ((c = fileReader.read(buf)) > 0) {
@@ -69,14 +74,32 @@ public class SimpleFileService implements FileService {
     }
 
     @Override
-    public List<String> openDirectory(String path, String fileName) {
-        File dir = new File(path, fileName);
-        //Надо if(dir.isDirectory?? или проверка будет выполняться гдето в дто??? типа файл ли это -> такой метод, или директория -> другой метод
-        String dirPath = dir.getAbsolutePath();
-        return Stream.of(new File(dirPath)
-                .listFiles())
-                .map(File::getName)
-                .collect(Collectors.toList());
+    public List<String> getFileNames(String path, String fileName) {
+        //изменить на модель!!
+        File file = new File(path, fileName);
+        List<String> files = new ArrayList<>();
+        if (file.isFile()) {
+            String dirPath = file.getAbsolutePath();
+            files = Stream.of(new File(dirPath)
+                    .listFiles())
+                    .map(File::getName)
+                    .collect(Collectors.toList());
+        }
+        return files;
+    }
+
+    @Override
+    public List<String> getDirectoryNames(String path, String fileName) {
+        File file = new File(path, fileName);
+        List<String> directories = new ArrayList<>();
+        if (file.isDirectory()) {
+            String dirPath = file.getAbsolutePath();
+            directories = Stream.of(new File(dirPath)
+                    .listFiles())
+                    .map(File::getName)
+                    .collect(Collectors.toList());
+        }
+        return directories;
     }
 
     private void wrongOpen(String pathName, String fileName) {
