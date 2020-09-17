@@ -4,6 +4,8 @@ import com.converter.FileToModelConverter;
 import com.model.FileModel;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,7 +13,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class SimpleFileService implements FileService {
-
     @Override
     public void createFile(String path, String fileName) {
         File file = new File(path, fileName);
@@ -46,7 +47,7 @@ public class SimpleFileService implements FileService {
     @Override
     public void write(String path, String fileName, String text) {
         FileToModelConverter fTM = new FileToModelConverter();
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fTM.fileModelToFile(new FileModel(path, fileName)), true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fTM.fileModelToFile(new FileModel(path)), true))) {
             writer.write(text);
             writer.newLine();
             writer.flush();
@@ -55,51 +56,55 @@ public class SimpleFileService implements FileService {
         }
     }
 
+//    @Override
+//    public String openFile(String path) {
+//        //писать проверку, что это файл??
+//        String currentLine;
+//        StringBuilder builder = new StringBuilder();
+//        try (BufferedReader bf = new BufferedReader(new FileReader(new File(path)))) {
+//            currentLine = bf.readLine();
+//            while (currentLine != null) {
+//                builder.append(currentLine);
+//                builder.append("\n");
+//                currentLine = bf.readLine();
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return builder.toString();
+//    }
+
     @Override
-    public void openFile(String path, String fileName) {
-        //писать проверку, что это файл??
-        FileToModelConverter fTM = new FileToModelConverter();
-        try (FileReader fileReader = new FileReader(fTM.fileModelToFile(new FileModel(path, fileName)))) {
-            char[] buf = new char[256];
-            int c;
-            while ((c = fileReader.read(buf)) > 0) {
-                if (c < 256) {
-                    buf = Arrays.copyOf(buf, c);
-                }
-                System.out.print(buf);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public String openFile(String path) throws IOException {
+        byte[] encoded = Files.readAllBytes(Paths.get(path));
+        return new String(encoded);
     }
 
     @Override
     public List<String> getFileNames(String path, String fileName) {
         //изменить на модель!!
         File file = new File(path, fileName);
-        List<String> files = new ArrayList<>();
-        if (file.isFile()) {
-            String dirPath = file.getAbsolutePath();
-            files = Stream.of(new File(dirPath)
-                    .listFiles())
-                    .map(File::getName)
-                    .collect(Collectors.toList());
+        List<String> filesList = new ArrayList<>();
+        File[] files = file.listFiles();
+        for (File f: files) {
+            if(f.isFile()) {
+                filesList.add(f.getName());
+            }
         }
-        return files;
+        return filesList;
     }
 
     @Override
     public List<String> getDirectoryNames(String path, String fileName) {
         File file = new File(path, fileName);
-        List<String> directories = new ArrayList<>();
-        if (file.isDirectory()) {
-            String dirPath = file.getAbsolutePath();
-            directories = Stream.of(new File(dirPath)
-                    .listFiles())
-                    .map(File::getName)
-                    .collect(Collectors.toList());
+        List<String> dirList = new ArrayList<>();
+        File[] dirs = file.listFiles();
+        for (File d: dirs) {
+            if(d.isDirectory()) {
+                dirList.add(d.getName());
+            }
         }
-        return directories;
+        return dirList;
     }
 
     private void wrongOpen(String pathName, String fileName) {

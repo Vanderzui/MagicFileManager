@@ -1,5 +1,6 @@
 import com.service.SimpleFileService;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -16,10 +17,9 @@ public class Launcher {
 //        File file = new File("D:\\myDir\\newDir2", "aliceDir");
 //        file.mkdir();
 //        System.out.println(file.getAbsolutePath());
-        List<String> strings = simpleFileService.getFileNames("D:", "myDir");
-        for (String files : strings) {
-            System.out.println(files);
-        }
+        List<String> strings = simpleFileService.getDirectoryNames("D:\\myDir", "open");
+//        for (String files : strings) {
+//            System.out.println(files);
 
     }
 }

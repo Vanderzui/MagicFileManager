@@ -8,13 +8,13 @@
          version="3.1">
     <display-name>Archetype Created Web Application</display-name>
     <servlet>
-        <servlet-name>ControllerServlet</servlet-name>
+        <servlet-name>GetListFilesServlet</servlet-name>
         <servlet-class>com.controller.GetListFilesServlet</servlet-class>
         <load-on-startup>0</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>ControllerServlet</servlet-name>
-        <url-pattern>/</url-pattern>
+        <servlet-name>GetListFilesServlet</servlet-name>
+        <url-pattern></url-pattern>
     </servlet-mapping>
 
 
@@ -30,7 +30,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>fileServlet</servlet-name>
-        <url-pattern>/ControllerFileOpenServlet</url-pattern>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
 
 

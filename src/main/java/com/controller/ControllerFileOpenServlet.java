@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.dto.Dto;
 import com.service.SimpleFileService;
 
 import javax.servlet.RequestDispatcher;
@@ -13,15 +14,24 @@ import java.util.List;
 
 //отвечает за открытие\редактирование
 @WebServlet(name = "com.controller.ControllerFileOpenServlet")
-
 public class ControllerFileOpenServlet extends HttpServlet {
+    private SimpleFileService simpleFileService =  new SimpleFileService();;
+
+    //для открытия в новом окне
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
+        String contextPath = req.getRequestURI();
+        String open = simpleFileService.openFile(contextPath);
+        req.setAttribute("result", open);
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("openFile.jsp");
+        requestDispatcher.forward(req, resp);
+
+
     }
 
+    //для редактирования
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doPost(req, resp);
     }
 

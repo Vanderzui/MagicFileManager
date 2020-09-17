@@ -13,54 +13,56 @@
 </head>
 <body>
 <div style="text-align: center;">
-
+    <h1>
+        Start to create!
+    </h1>
     <table>
         <c:forEach items="${files}" var="file">
             <tr>
-                <td><c:out value="${file}" /></td>
-                <a href="URL">...</a>
+                    <%--                <td><a href="openFile.jsp">${file}</a></td>--%>
+                <td><a href="myDir/${file}">${file}</a></td>
             </tr>
+
         </c:forEach>
     </table>
     <table>
         <c:forEach items="${directories}" var="dir">
-            <tr>
-                <td><c:out value="${dir}" /></td>
-            </tr>
+<%--            <tr>--%>
+<%--                <td><a href="http://localhost:8080/${dir}">${dir}</a></td>--%>
+<%--            </tr>--%>
+            <td><a href="myDir/${dir}">${dir}</a></td>
         </c:forEach>
     </table>
-    <h1>
-        Start to create!
-    </h1>
-    <p>
-    <form method="get" action="название сервлета. где будет создание файла/директории">
-        <button onclick="location.href=''">
-            <img src="<c:url value="/images/createFile.png"/>" alt="файл" style="vertical-align:middle">
-            <br>New File/Directory
-        </button>
-    </form>
 
-    <form method="post" action="название сервлета. где будет создание директории">
-        <button onclick="location.href=''">
-            <img src="<c:url value="/images/createFolder.png"/>" alt="папка" style="vertical-align:middle">
-            <br>New Directory
-        </button>
-    </form>
+<%--    <p>--%>
+<%--    <form method="get" action="название сервлета. где будет создание файла/директории">--%>
+<%--        <button onclick="location.href=''">--%>
+<%--            <img src="<c:url value="/images/createFile.png"/>" alt="файл" style="vertical-align:middle">--%>
+<%--            <br>New File/Directory--%>
+<%--        </button>--%>
+<%--    </form>--%>
 
-    <form method="put" action="название сервлета. где будет редактирование файла">
-        <button onclick="location.href='/magic/*'">
-            <img src="<c:url value="/images/open.png"/>" alt="открыть" style="vertical-align:middle">
-            <br>Open
-        </button>
-    </form>
+<%--    <form method="post" action="название сервлета. где будет создание директории">--%>
+<%--        <button onclick="location.href=''">--%>
+<%--            <img src="<c:url value="/images/createFolder.png"/>" alt="папка" style="vertical-align:middle">--%>
+<%--            <br>New Directory--%>
+<%--        </button>--%>
+<%--    </form>--%>
 
-    <form method="delete" action="название сервлета. где будет удаление">
-        <button onclick="location.href=''">
-            <img src="<c:url value="/images/delete-sign.png"/>" alt="удалить" style="vertical-align:middle">
-            <br>Delete
-        </button>
-    </form>
-    </p>
+<%--    <form method="put" action="название сервлета. где будет редактирование файла">--%>
+<%--        <button onclick="location.href='/magic/*'">--%>
+<%--            <img src="<c:url value="/images/open.png"/>" alt="открыть" style="vertical-align:middle">--%>
+<%--            <br>Open--%>
+<%--        </button>--%>
+<%--    </form>--%>
+
+<%--    <form method="delete" action="название сервлета. где будет удаление">--%>
+<%--        <button onclick="location.href=''">--%>
+<%--            <img src="<c:url value="/images/delete-sign.png"/>" alt="удалить" style="vertical-align:middle">--%>
+<%--            <br>Delete--%>
+<%--        </button>--%>
+<%--    </form>--%>
+<%--    </p>--%>
 </div>
 </body>
 </html>

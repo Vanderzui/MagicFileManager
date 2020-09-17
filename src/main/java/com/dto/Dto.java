@@ -7,8 +7,7 @@ public class Dto {
     public Dto() {
     }
 
-    public Dto(String path, String fileName) {
-        this.fileName = fileName;
+    public Dto(String path) {
         this.path = path;
     }
 

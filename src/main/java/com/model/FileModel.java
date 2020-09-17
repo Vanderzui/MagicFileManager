@@ -7,9 +7,8 @@ public class FileModel {
     public FileModel() {
     }
 
-    public FileModel(String path, String fileName) {
+    public FileModel(String path) {
         this.path = path;
-        this.fileName = fileName;
     }
 
     public String getFileName() {

@@ -13,9 +13,9 @@ import java.util.Iterator;
 import java.util.List;
 
 //отвечает за создание\удаление
-@WebServlet(name = "com.controller.ControllerServlet",urlPatterns = "")
+@WebServlet(name = "GetListFilesServlet")
 public class GetListFilesServlet extends HttpServlet {
-    private SimpleFileService simpleFileService;
+    private SimpleFileService simpleFileService = new SimpleFileService();;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -24,12 +24,13 @@ public class GetListFilesServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        simpleFileService = new SimpleFileService();
         List<String> myFiles = simpleFileService.getFileNames("D:", "myDir");
         List<String> myDir = simpleFileService.getDirectoryNames("D:", "myDir");
-        req.setAttribute("files", myFiles);
         req.setAttribute("directories", myDir);
+        req.setAttribute("files", myFiles);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("index.jsp");
         requestDispatcher.forward(req, resp);
+
+
     }
 }

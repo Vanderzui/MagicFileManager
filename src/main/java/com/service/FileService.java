@@ -1,6 +1,7 @@
 package com.service;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public interface FileService {
@@ -12,7 +13,7 @@ public interface FileService {
 
      abstract void write(String path, String fileName, String text);
 
-     abstract void openFile(String path, String fileName);
+     abstract String openFile(String path) throws IOException;
 
      abstract List<String> getFileNames(String path, String fileName);
 
