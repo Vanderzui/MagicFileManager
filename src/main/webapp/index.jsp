@@ -18,10 +18,8 @@
     </h1>
     <table>
         <c:forEach items="${files}" var="file">
-            <tr>
                     <%--                <td><a href="openFile.jsp">${file}</a></td>--%>
-                <td><a href="myDir/${file}">${file}</a></td>
-            </tr>
+                <td><a href="/${file}">${file}</a></td>
 
         </c:forEach>
     </table>
@@ -30,7 +28,7 @@
 <%--            <tr>--%>
 <%--                <td><a href="http://localhost:8080/${dir}">${dir}</a></td>--%>
 <%--            </tr>--%>
-            <td><a href="myDir/${dir}">${dir}</a></td>
+            <td><a href="/${dir}">${dir}</a></td>
         </c:forEach>
     </table>
 
@@ -38,7 +36,7 @@
 <%--    <form method="get" action="название сервлета. где будет создание файла/директории">--%>
 <%--        <button onclick="location.href=''">--%>
 <%--            <img src="<c:url value="/images/createFile.png"/>" alt="файл" style="vertical-align:middle">--%>
-<%--            <br>New File/Directory--%>
+<%--            <br>новую папочку-то создай, ну--%>
 <%--        </button>--%>
 <%--    </form>--%>
 

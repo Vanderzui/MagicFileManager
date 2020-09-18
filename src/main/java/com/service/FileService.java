@@ -15,7 +15,9 @@ public interface FileService {
 
      abstract String openFile(String path) throws IOException;
 
-     abstract List<String> getFileNames(String path, String fileName);
+//     abstract List<String> getNames(String path, String fileName);
 
-     abstract List<String> getDirectoryNames(String path, String fileName);
+     abstract List<String> getFileNames(String path);
+
+     abstract List<String> getDirectoryNames(String path);
 }

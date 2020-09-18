@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE web-app PUBLIC
         "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
         "http://java.sun.com/dtd/web-app_2_3.dtd" >
@@ -26,11 +27,20 @@
 
     <servlet>
         <servlet-name>fileServlet</servlet-name>
-        <servlet-class>com.controller.ControllerFileOpenServlet</servlet-class>
+        <servlet-class>com.controller.ControllerDirOpenServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>fileServlet</servlet-name>
         <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>FileThingsServlet</servlet-name>
+        <servlet-class>com.controller.FileThingsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FileThingsServlet</servlet-name>
+        <url-pattern>/fileOpen/</url-pattern>
     </servlet-mapping>
 
 

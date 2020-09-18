@@ -16,8 +16,7 @@ public class Launcher {
 //        simpleFileService.createDirectory("D:\\myDir", "newDir2");
 //        File file = new File("D:\\myDir\\newDir2", "aliceDir");
 //        file.mkdir();
-//        System.out.println(file.getAbsolutePath());
-        List<String> strings = simpleFileService.getDirectoryNames("D:\\myDir", "open");
+//        List<String> strings = simpleFileService.getDirectoryNames("D:\\myDir", "open");
 //        for (String files : strings) {
 //            System.out.println(files);
 

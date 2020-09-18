@@ -2,8 +2,10 @@ package com.service;
 
 import com.converter.FileToModelConverter;
 import com.model.FileModel;
+import org.apache.commons.io.FileUtils;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -76,14 +78,17 @@ public class SimpleFileService implements FileService {
 
     @Override
     public String openFile(String path) throws IOException {
-        byte[] encoded = Files.readAllBytes(Paths.get(path));
-        return new String(encoded);
+//        byte[] fileBites = Files.readAllBytes(Paths.get(path));
+//        List<String> lines = Files.readAllLines(Paths.get(path));
+//        return new String(fileBites);
+        File file = new File(path);
+        return FileUtils.readFileToString(file, StandardCharsets.UTF_8);
     }
 
     @Override
-    public List<String> getFileNames(String path, String fileName) {
+    public List<String> getFileNames(String path) {
         //изменить на модель!!
-        File file = new File(path, fileName);
+        File file = new File(path);
         List<String> filesList = new ArrayList<>();
         File[] files = file.listFiles();
         for (File f: files) {
@@ -95,8 +100,8 @@ public class SimpleFileService implements FileService {
     }
 
     @Override
-    public List<String> getDirectoryNames(String path, String fileName) {
-        File file = new File(path, fileName);
+    public List<String> getDirectoryNames(String path) {
+        File file = new File(path);
         List<String> dirList = new ArrayList<>();
         File[] dirs = file.listFiles();
         for (File d: dirs) {
@@ -106,6 +111,18 @@ public class SimpleFileService implements FileService {
         }
         return dirList;
     }
+
+//    @Override
+//    public List<String> getNames(String path, String fileName) {
+//        File file = new File(path, fileName);
+//        List<String> list;
+//        if(file.isFile()) {
+//            list = getFileNames(path, fileName);
+//        } else {
+//            list = getDirectoryNames(path, fileName);
+//        }
+//        return list;
+//    }
 
     private void wrongOpen(String pathName, String fileName) {
         BufferedInputStream readFile = null;

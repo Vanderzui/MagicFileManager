@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.service.FileService;
 import com.service.SimpleFileService;
 
 import javax.servlet.RequestDispatcher;
@@ -15,7 +16,7 @@ import java.util.List;
 //отвечает за создание\удаление
 @WebServlet(name = "GetListFilesServlet")
 public class GetListFilesServlet extends HttpServlet {
-    private SimpleFileService simpleFileService = new SimpleFileService();;
+    private FileService simpleFileService = new SimpleFileService();;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -24,8 +25,8 @@ public class GetListFilesServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<String> myFiles = simpleFileService.getFileNames("D:", "myDir");
-        List<String> myDir = simpleFileService.getDirectoryNames("D:", "myDir");
+        List<String> myFiles = simpleFileService.getFileNames("D:/myDir");
+        List<String> myDir = simpleFileService.getDirectoryNames("D:/myDir");
         req.setAttribute("directories", myDir);
         req.setAttribute("files", myFiles);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("index.jsp");
