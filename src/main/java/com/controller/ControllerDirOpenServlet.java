@@ -19,36 +19,46 @@ import java.util.List;
 //отвечает за открытие\редактирование
 @WebServlet(name = "com.controller.ControllerDirOpenServlet")
 public class ControllerDirOpenServlet extends HttpServlet {
-    private FileService simpleFileService =  new SimpleFileService();
+    private FileService simpleFileService = new SimpleFileService();
     public String root = "D:/myDir";
+    List<String> myFiles;
+    List<String> myDir;
 
     //для открытия в новом окне
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String contextPath = root + req.getRequestURI();
-        if(new File(contextPath).isDirectory()) {
-            List<String> myFiles = simpleFileService.getFileNames(contextPath);
-            List<String> myDir = simpleFileService.getDirectoryNames(contextPath);
-            String url = req.getRequestURI();
-            req.setAttribute("url", url);
+        String contextPath = root + req.getRequestURI().substring(5);
+        if (new File(contextPath).isDirectory()) {
+             myFiles = simpleFileService.getFileNames(contextPath);
+            myDir = simpleFileService.getDirectoryNames(contextPath);
+            String urlDir = req.getRequestURI();
+            String urlFile = req.getRequestURI().replace("root", "file");
+            req.setAttribute("urlDir", urlDir);
+            req.setAttribute("urlFile", urlFile);
             req.setAttribute("directories", myDir);
             req.setAttribute("files", myFiles);
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("openDir.jsp");
+            String back = req.getRequestURI() + "/..";
+            req.setAttribute("back", back);
+//            req.setAttribute("back", req.getRequestURI());
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher(req.getContextPath() + "/openDir.jsp");
             requestDispatcher.forward(req, resp);
-
-
         }
-
-
     }
 
-    //для редактирования
     @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String contextPath = root + req.getRequestURI().substring(5);
+        String dirName = req.getParameter("dirName");
+        File directory = simpleFileService.createDirectory(contextPath, dirName);
+
+        doGet(req, resp);
     }
 
-//    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doDelete(req, resp);
+    }
+    //    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //        SimpleFileService simpleFileService = new SimpleFileService();
 //        List<String> listIndexPage = simpleFileService.getListFiles("D:", "myDir");
 //        request.setAttribute("zzz", listIndexPage);

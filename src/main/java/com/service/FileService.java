@@ -5,13 +5,13 @@ import java.io.IOException;
 import java.util.List;
 
 public interface FileService {
-     abstract void createFile(String path, String fileName);
+     abstract File createFile(String path, String fileName);
 
-     abstract void createDirectory(String path, String fileName);
+     abstract File createDirectory(String path, String name);
 
-     abstract void delete(String path, String fileName);
+     abstract void delete(String path);
 
-     abstract void write(String path, String fileName, String text);
+     abstract void write(String path, String text);
 
      abstract String openFile(String path) throws IOException;
 

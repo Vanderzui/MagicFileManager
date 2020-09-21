@@ -18,22 +18,30 @@ public class FileThingsServlet extends HttpServlet {
     public String root = "D:/myDir";
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-            String contextPath = root + req.getRequestURI();
+            String contextPath = root + req.getRequestURI().substring(5);
             if(new File(contextPath).isFile()) {
                 String open = simpleFileService.openFile(contextPath);
                 req.setAttribute("result", open);
-                RequestDispatcher requestDispatcher = req.getRequestDispatcher("openFile.jsp");
+                req.setAttribute("close", req.getRequestURL());
+                RequestDispatcher requestDispatcher = req.getRequestDispatcher(req.getContextPath() + "/openFile.jsp");
                 requestDispatcher.forward(req, resp);
             }
         }
 
     @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPut(req, resp);
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String input = req.getParameter("input");
+        String contextPath = root + req.getRequestURI().substring(5);
+        simpleFileService.write(contextPath, input);
+        String change = simpleFileService.openFile(contextPath) + input;
+        req.setAttribute("result", change);
+        doGet(req, resp);
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        simpleFileService.delete(root + req.getRequestURI());
+        RequestDispatcher rd = req.getRequestDispatcher("index.jsp");
+        rd.forward(req, resp);
     }
 }

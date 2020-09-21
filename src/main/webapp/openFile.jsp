@@ -13,6 +13,21 @@
 </head>
 <body>
 Вот че тут есть:
-${result}
+
+<form method="post">
+
+    <%--    ${result}--%>
+    <textarea rows="50" cols="100">
+        ${result}
+
+  </textarea>
+        <input type="text" name="input" >
+
+    <br><button type="submit">Submit</button>
+        <br>
+</form>
+<div>
+    <button onclick="location.href='${close}'">Close</button>
+</div>
 </body>
 </html>

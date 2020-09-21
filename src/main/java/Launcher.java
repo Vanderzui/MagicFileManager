@@ -2,6 +2,7 @@ import com.service.SimpleFileService;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 public class Launcher {
@@ -19,6 +20,7 @@ public class Launcher {
 //        List<String> strings = simpleFileService.getDirectoryNames("D:\\myDir", "open");
 //        for (String files : strings) {
 //            System.out.println(files);
+//        simpleFileService.write("D:/myDir/alisa.txt", "qwerty");
 
     }
 }

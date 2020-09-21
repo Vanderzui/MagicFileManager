@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 
 public class SimpleFileService implements FileService {
     @Override
-    public void createFile(String path, String fileName) {
+    public File createFile(String path, String fileName) {
         File file = new File(path, fileName);
         if (!file.exists()) {
             try {
@@ -27,19 +27,21 @@ public class SimpleFileService implements FileService {
         } else {
             System.out.println("Такой файл уже существует");
         }
+        return file;
     }
 
     @Override
-    public void createDirectory(String path, String fileName) {
-        File file = new File(path, fileName);
+    public File createDirectory(String path, String name) {
+        File file = new File(path, name);
         if (!file.exists()) {
             file.mkdir();
         }
+        return file;
     }
 
     @Override
-    public void delete(String path, String fileName) {
-        File file = new File(path, fileName);
+    public void delete(String path) {
+        File file = new File(path);
         if (file.exists()) {
             file.delete();
         }
@@ -47,9 +49,9 @@ public class SimpleFileService implements FileService {
 
 
     @Override
-    public void write(String path, String fileName, String text) {
-        FileToModelConverter fTM = new FileToModelConverter();
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fTM.fileModelToFile(new FileModel(path)), true))) {
+    public void write(String path, String text) {
+//        FileToModelConverter fTM = new FileToModelConverter();
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File(path), true))) {
             writer.write(text);
             writer.newLine();
             writer.flush();

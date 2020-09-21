@@ -14,23 +14,13 @@
 <body>
 <div style="text-align: center;">
     <h1>
-        Start to create!
-    </h1>
-    <table>
-        <c:forEach items="${files}" var="file">
-                    <%--                <td><a href="openFile.jsp">${file}</a></td>--%>
-                <td><a href="/${file}">${file}</a></td>
 
-        </c:forEach>
-    </table>
-    <table>
-        <c:forEach items="${directories}" var="dir">
-<%--            <tr>--%>
-<%--                <td><a href="http://localhost:8080/${dir}">${dir}</a></td>--%>
-<%--            </tr>--%>
-            <td><a href="/${dir}">${dir}</a></td>
-        </c:forEach>
-    </table>
+        <td><a href="/root">Start to create!</a></td>
+
+    </h1>
+
+
+
 
 <%--    <p>--%>
 <%--    <form method="get" action="название сервлета. где будет создание файла/директории">--%>

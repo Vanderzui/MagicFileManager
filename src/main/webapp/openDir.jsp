@@ -1,4 +1,4 @@
-<%--
+<%@ page import="java.io.PrintWriter" %><%--
   Created by IntelliJ IDEA.
   User: Алиса
   Date: 17.09.2020
@@ -14,22 +14,35 @@
 <body>
 <h1>
     DIRS
+    ${url}
+
 </h1>
 <table>
     <c:forEach items="${files}" var="file">
         <tr>
-            <td><a href="/${file}">${file}</a></td>
+            <td><a href="${urlFile}/${file}">${file}</a></td>
         </tr>
 
     </c:forEach>
 </table>
 <table>
-    ${url}
     <c:forEach items="${directories}" var="dir">
         <tr>
-            <td><a href="${url}/${dir}">${dir}</a></td>
+<%--            <td><a href="${url}/${dir}">${dir}</a></td>--%>
+            <td><a href="${urlDir}/${dir}">${dir}</a></td>
         </tr>
     </c:forEach>
 </table>
+<div>
+    <button onclick="location.href='${back}'">Back</button>
+</div>
+<div>
+    <form  method="post">
+            <input name="dirName" type="text">
+            <input type="submit" value ="Create Folder">
+    </form>
+<%--    <button type="submit" form="newDir" value="Submit">Submit</button>--%>
+</div>
+
 </body>
 </html>

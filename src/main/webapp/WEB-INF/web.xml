@@ -9,13 +9,13 @@
          version="3.1">
     <display-name>Archetype Created Web Application</display-name>
     <servlet>
-        <servlet-name>GetListFilesServlet</servlet-name>
-        <servlet-class>com.controller.GetListFilesServlet</servlet-class>
+        <servlet-name>dirOpenServlet</servlet-name>
+        <servlet-class>com.controller.ControllerDirOpenServlet</servlet-class>
         <load-on-startup>0</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>GetListFilesServlet</servlet-name>
-        <url-pattern></url-pattern>
+        <servlet-name>dirOpenServlet</servlet-name>
+        <url-pattern>/root/*</url-pattern>
     </servlet-mapping>
 
 
@@ -25,14 +25,6 @@
     </servlet-mapping>
 
 
-    <servlet>
-        <servlet-name>fileServlet</servlet-name>
-        <servlet-class>com.controller.ControllerDirOpenServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>fileServlet</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>
 
     <servlet>
         <servlet-name>FileThingsServlet</servlet-name>
@@ -40,7 +32,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>FileThingsServlet</servlet-name>
-        <url-pattern>/fileOpen/</url-pattern>
+        <url-pattern>/file/*</url-pattern>
     </servlet-mapping>
 
 
