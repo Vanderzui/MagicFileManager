@@ -2,9 +2,6 @@ package com.controller;
 
 import com.service.FileService;
 import com.service.SimpleFileService;
-import com.sun.org.apache.xerces.internal.impl.io.UTF8Reader;
-import com.sun.xml.internal.bind.v2.runtime.output.UTF8XmlOutput;
-import com.sun.xml.internal.stream.writers.UTF8OutputStreamWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -24,12 +21,11 @@ public class ControllerDirOpenServlet extends HttpServlet {
     List<String> myFiles;
     List<String> myDir;
 
-    //для открытия в новом окне
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String contextPath = root + req.getRequestURI().substring(5);
         if (new File(contextPath).isDirectory()) {
-             myFiles = simpleFileService.getFileNames(contextPath);
+            myFiles = simpleFileService.getFileNames(contextPath);
             myDir = simpleFileService.getDirectoryNames(contextPath);
             String urlDir = req.getRequestURI();
             String urlFile = req.getRequestURI().replace("root", "file");
@@ -48,23 +44,25 @@ public class ControllerDirOpenServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String contextPath = root + req.getRequestURI().substring(5);
+        String fileToDelete = req.getParameter("delete");
+        myFiles = simpleFileService.getFileNames(contextPath);
+        myDir = simpleFileService.getDirectoryNames(contextPath);
+        if(myDir.contains(fileToDelete) || myFiles.contains(fileToDelete)) {
+            doDelete(req, resp);
+        }
         String dirName = req.getParameter("dirName");
-        File directory = simpleFileService.createDirectory(contextPath, dirName);
-
+        simpleFileService.createDirectory(contextPath, dirName);
+        String fileName = req.getParameter("fileName");
+        simpleFileService.createFile(contextPath, fileName);
         doGet(req, resp);
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doDelete(req, resp);
+        String contextPath = root + req.getRequestURI().substring(5);
+        String fileToDelete = req.getParameter("delete");
+        simpleFileService.delete(contextPath + "/" + fileToDelete);
+        doGet(req, resp);
     }
-    //    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        SimpleFileService simpleFileService = new SimpleFileService();
-//        List<String> listIndexPage = simpleFileService.getListFiles("D:", "myDir");
-//        request.setAttribute("zzz", listIndexPage);
-//        RequestDispatcher view = request.getRequestDispatcher("index.jsp");
-//        view.forward(request, response);
-
-
 }
 

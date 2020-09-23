@@ -21,6 +21,10 @@ public class Launcher {
 //        for (String files : strings) {
 //            System.out.println(files);
 //        simpleFileService.write("D:/myDir/alisa.txt", "qwerty");
+        File file = new File("D:/myDir/open/nbv");
+        System.out.println(file.getAbsolutePath());
+        System.out.println(file.getPath());
+        simpleFileService.delete("D:/myDir/open/nbv");
 
     }
 }

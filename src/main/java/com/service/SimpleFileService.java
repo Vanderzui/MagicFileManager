@@ -1,22 +1,15 @@
 package com.service;
 
-import com.converter.FileToModelConverter;
-import com.model.FileModel;
 import org.apache.commons.io.FileUtils;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class SimpleFileService implements FileService {
     @Override
-    public File createFile(String path, String fileName) {
+    public void createFile(String path, String fileName) {
         File file = new File(path, fileName);
         if (!file.exists()) {
             try {
@@ -27,22 +20,25 @@ public class SimpleFileService implements FileService {
         } else {
             System.out.println("Такой файл уже существует");
         }
-        return file;
     }
 
     @Override
-    public File createDirectory(String path, String name) {
+    public void createDirectory(String path, String name) {
         File file = new File(path, name);
         if (!file.exists()) {
             file.mkdir();
         }
-        return file;
     }
 
     @Override
     public void delete(String path) {
         File file = new File(path);
         if (file.exists()) {
+            if (file.isDirectory()) {
+                for (File f : file.listFiles()) {
+                    delete(f.getAbsolutePath());
+                }
+            }
             file.delete();
         }
     }

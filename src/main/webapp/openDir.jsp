@@ -19,30 +19,44 @@
 </h1>
 <table>
     <c:forEach items="${files}" var="file">
-        <tr>
-            <td><a href="${urlFile}/${file}">${file}</a></td>
-        </tr>
 
+ <tr> <td> <a href="${urlFile}/${file}">${file}</a></td>
+
+
+     <td>   <form method="post">
+            <input type="hidden" name="delete" value="${file}">
+            <button>Delete</button>
+        </form>  </td>
+ </tr>
     </c:forEach>
 </table>
 <table>
     <c:forEach items="${directories}" var="dir">
         <tr>
-<%--            <td><a href="${url}/${dir}">${dir}</a></td>--%>
-            <td><a href="${urlDir}/${dir}">${dir}</a></td>
+            <td> <a href="${urlDir}/${dir}">${dir}</a></td>
+
+            <td>  <form method="post">
+            <input type="hidden" name="delete" value="${dir}">
+            <button>Delete</button>
+        </form></td>
         </tr>
+
     </c:forEach>
 </table>
 <div>
     <button onclick="location.href='${back}'">Back</button>
+    <br>
+    <br>
 </div>
 <div>
-    <form  method="post">
-            <input name="dirName" type="text">
-            <input type="submit" value ="Create Folder">
+    <form method="post">
+        <input name="dirName" type="text"> <br>
+        <input type="submit" value="Create Folder"> <br> <br>
+        <input name="fileName" type="text"> <br>
+        <input type="submit" value="Create File"> <br> <br>
     </form>
-<%--    <button type="submit" form="newDir" value="Submit">Submit</button>--%>
 </div>
+
 
 </body>
 </html>

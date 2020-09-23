@@ -5,9 +5,9 @@ import java.io.IOException;
 import java.util.List;
 
 public interface FileService {
-     abstract File createFile(String path, String fileName);
+     abstract void createFile(String path, String fileName);
 
-     abstract File createDirectory(String path, String name);
+     abstract void createDirectory(String path, String name);
 
      abstract void delete(String path);
 
