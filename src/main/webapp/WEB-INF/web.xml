@@ -35,7 +35,14 @@
         <url-pattern>/file/*</url-pattern>
     </servlet-mapping>
 
-
+    <servlet>
+        <servlet-name>NoteServlet</servlet-name>
+        <servlet-class>com.controller.NoteServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>NoteServlet</servlet-name>
+        <url-pattern>/note</url-pattern>
+    </servlet-mapping>
 
 
 

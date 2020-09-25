@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.dto.FileDto;
 import com.service.FileService;
 import com.service.SimpleFileService;
 
@@ -18,8 +19,8 @@ import java.util.List;
 public class ControllerDirOpenServlet extends HttpServlet {
     private FileService simpleFileService = new SimpleFileService();
     public String root = "D:/myDir";
-    List<String> myFiles;
-    List<String> myDir;
+    List<FileDto> myFiles;
+    List<FileDto> myDir;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -47,7 +48,7 @@ public class ControllerDirOpenServlet extends HttpServlet {
         String fileToDelete = req.getParameter("delete");
         myFiles = simpleFileService.getFileNames(contextPath);
         myDir = simpleFileService.getDirectoryNames(contextPath);
-        if(myDir.contains(fileToDelete) || myFiles.contains(fileToDelete)) {
+        if(myDir.contains(fileToDelete) || myFiles.contains(fileToDelete)) { //ето хрень не работает, что очевидно
             doDelete(req, resp);
         }
         String dirName = req.getParameter("dirName");

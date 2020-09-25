@@ -1,3 +1,9 @@
+import com.converter.EntityToModelConverter;
+import com.converter.ModelToDtoConverter;
+import com.dao.SimpleFileDAO;
+import com.dto.FileDto;
+import com.entities.FileEntity;
+import com.model.FileModel;
 import com.service.SimpleFileService;
 
 import java.io.File;
@@ -9,6 +15,7 @@ public class Launcher {
     public static void main(String[] args) throws IOException {
 
         SimpleFileService simpleFileService = new SimpleFileService();
+        SimpleFileDAO simpleFileDAO = new SimpleFileDAO();
 //        simpleFileService.create("D:\\myDir", "alisa.txt");
 //        simpleFileService.open("D:\\myDir", "alisa.txt");
 //        simpleFileService.write("D:\\myDir", "alisa.txt", "алиса");
@@ -22,9 +29,16 @@ public class Launcher {
 //            System.out.println(files);
 //        simpleFileService.write("D:/myDir/alisa.txt", "qwerty");
         File file = new File("D:/myDir/open/nbv");
-        System.out.println(file.getAbsolutePath());
-        System.out.println(file.getPath());
-        simpleFileService.delete("D:/myDir/open/nbv");
-
+        System.out.println(simpleFileDAO.getFileNames("D:/myDir"));
+        List<FileDto> directoryNames = simpleFileService.getDirectoryNames("D:/myDir");
+        for (FileDto fd : directoryNames) {
+            System.out.println(fd.getName() + " " + fd.getPath() + " " + fd.getText());
+        }
+        FileEntity fileEntity = new FileEntity();
+        fileEntity.setName("hi");
+        FileModel fileModel = new EntityToModelConverter().fileEntityToFileModel(fileEntity);
+        FileDto fileDto = new ModelToDtoConverter().fileModelToFileDto(fileModel);
+        fileDto.setName(fileModel.getName());
+        System.out.println(directoryNames.contains(fileDto));
     }
 }

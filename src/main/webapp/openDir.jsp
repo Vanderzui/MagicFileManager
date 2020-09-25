@@ -27,6 +27,9 @@
             <input type="hidden" name="delete" value="${file}">
             <button>Delete</button>
         </form>  </td>
+
+     <td> <a href="/note">note</a></td>
+
  </tr>
     </c:forEach>
 </table>
@@ -39,7 +42,12 @@
             <input type="hidden" name="delete" value="${dir}">
             <button>Delete</button>
         </form></td>
+
+
+
         </tr>
+
+
 
     </c:forEach>
 </table>

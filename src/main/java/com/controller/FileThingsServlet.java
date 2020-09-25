@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.dto.FileDto;
 import com.service.FileService;
 import com.service.SimpleFileService;
 
@@ -20,9 +21,9 @@ public class FileThingsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
             String contextPath = root + req.getRequestURI().substring(5);
             if(new File(contextPath).isFile()) {
-                String open = simpleFileService.openFile(contextPath);
-                req.setAttribute("result", open);
-                req.setAttribute("close", req.getRequestURL());
+                FileDto open = simpleFileService.openFile(contextPath);
+                req.setAttribute("result", open.getText());
+                req.setAttribute("close", req.getRequestURI().replace("file","root") + "/..");
                 RequestDispatcher requestDispatcher = req.getRequestDispatcher(req.getContextPath() + "/openFile.jsp");
                 requestDispatcher.forward(req, resp);
             }
