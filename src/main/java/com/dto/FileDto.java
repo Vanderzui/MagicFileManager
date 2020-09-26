@@ -1,12 +1,24 @@
 package com.dto;
 
-import com.entities.Note;
-import com.model.FileModel;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FileDto {
     String path;
     String name;
     String text;
+    private Map<String, String> notes = new HashMap<>();
+
+    public Map<String, String> getNotes() {
+        return notes;
+    }
+
+    public FileDto(String path, String name, String text, Map<String, String> notes) {
+        this.path = path;
+        this.name = name;
+        this.text = text;
+        this.notes = notes;
+    }
 
     public FileDto() {
     }

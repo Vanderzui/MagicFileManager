@@ -9,7 +9,7 @@ public class EntityToModelConverter {
 
     public FileModel fileEntityToFileModel(FileEntity entity) {
 //        String wholePath = entity.getPath()+ entity.getName();
-        FileModel fileModel = new FileModel(entity.getPath(), entity.getName(), entity.getText());
+        FileModel fileModel = new FileModel(entity.getText(),  entity.getPath(), entity.getName(), entity.getNotes());
         return fileModel;
     }
 

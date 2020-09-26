@@ -5,7 +5,7 @@ import com.model.FileModel;
 
 public class ModelToDtoConverter {
      public FileDto fileModelToFileDto(FileModel model) {
-        FileDto fileDto = new FileDto(model.getPath(), model.getName(), model.getText());
+        FileDto fileDto = new FileDto(model.getPath(), model.getName(), model.getText(), model.getNotes());
         return fileDto;
     }
 

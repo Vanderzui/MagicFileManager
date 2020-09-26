@@ -18,16 +18,14 @@ import java.util.List;
 @WebServlet(name = "com.controller.ControllerDirOpenServlet")
 public class ControllerDirOpenServlet extends HttpServlet {
     private FileService simpleFileService = new SimpleFileService();
-    public String root = "D:/myDir";
-    List<FileDto> myFiles;
-    List<FileDto> myDir;
+    public static final String ROOT = "D:/myDir";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String contextPath = root + req.getRequestURI().substring(5);
+        String contextPath = ROOT + req.getRequestURI().substring(5);
         if (new File(contextPath).isDirectory()) {
-            myFiles = simpleFileService.getFileNames(contextPath);
-            myDir = simpleFileService.getDirectoryNames(contextPath);
+            List<FileDto> myFiles = simpleFileService.getFileNames(contextPath);
+            List<FileDto> myDir = simpleFileService.getDirectoryNames(contextPath);
             String urlDir = req.getRequestURI();
             String urlFile = req.getRequestURI().replace("root", "file");
             req.setAttribute("urlDir", urlDir);
@@ -44,13 +42,11 @@ public class ControllerDirOpenServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String contextPath = root + req.getRequestURI().substring(5);
+        String contextPath = ROOT + req.getRequestURI().substring(5);
         String fileToDelete = req.getParameter("delete");
-        myFiles = simpleFileService.getFileNames(contextPath);
-        myDir = simpleFileService.getDirectoryNames(contextPath);
-        if(myDir.contains(fileToDelete) || myFiles.contains(fileToDelete)) { //ето хрень не работает, что очевидно
-            doDelete(req, resp);
-        }
+        doDelete(req, resp);
+        List<FileDto> myFiles = simpleFileService.getFileNames(contextPath);
+        List<FileDto> myDir = simpleFileService.getDirectoryNames(contextPath);
         String dirName = req.getParameter("dirName");
         simpleFileService.createDirectory(contextPath, dirName);
         String fileName = req.getParameter("fileName");
@@ -60,7 +56,7 @@ public class ControllerDirOpenServlet extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String contextPath = root + req.getRequestURI().substring(5);
+        String contextPath = ROOT + req.getRequestURI().substring(5);
         String fileToDelete = req.getParameter("delete");
         simpleFileService.delete(contextPath + "/" + fileToDelete);
         doGet(req, resp);

@@ -7,27 +7,29 @@ import com.model.FileModel;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public interface FileService {
-     abstract FileDto createFile(String path, String fileName);
+    abstract FileDto createFile(String path, String fileName);
 
-     abstract FileDto createDirectory(String path, String name);
+    abstract FileDto createDirectory(String path, String name);
 
-     abstract void delete(String path);
+    abstract void delete(String path);
 
-     abstract void write(String path, String text);
+    abstract void write(String path, String text);
 
-     //abstract String openFile(String path) throws IOException;
+    //abstract String openFile(String path) throws IOException;
 
-     abstract FileDto openFile(String path) throws IOException;
+    abstract FileDto openFile(String path) throws IOException;
 
 //     abstract List<String> getNames(String path, String fileName);
 
-     abstract List<FileDto> getFileNames(String path);
+    abstract List<FileDto> getFileNames(String path);
 
-     abstract List<FileDto> getDirectoryNames(String path);
+    abstract List<FileDto> getDirectoryNames(String path);
 
-     abstract void openNote(File file);
+    public Map<String, String> openNote(String fileName);
 
-     abstract void writeToNote(String text);
+    abstract FileDto makeNote(String path, String fileName, String text);
+
 }

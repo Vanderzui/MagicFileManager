@@ -1,17 +1,24 @@
 package com.entities;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FileEntity {
     String path;
     String name;
     String text;
+    private Map<String, String> notes = new HashMap<>();
 
     public FileEntity() {
     }
 
     public FileEntity(String text) {
         this.text = text;
+    }
+
+    public Map<String, String> getNotes() {
+        return notes;
     }
 
     public FileEntity(String path, String text) {

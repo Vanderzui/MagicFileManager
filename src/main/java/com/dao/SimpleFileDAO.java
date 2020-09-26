@@ -8,16 +8,20 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SimpleFileDAO implements FileDAO{
-    FileEntity fileEntity = new FileEntity();
-    File file;
+    Map<String, Map<String, String>> fileNotes = new HashMap<>();
 
     @Override //works!
     public FileEntity createFile(String path, String name) {
-        file = new File(path, name);
+        FileEntity fileEntity = new FileEntity();
+        File file = new File(path, name);
         if (!file.exists()) {
             try {
                 file.createNewFile();
@@ -32,6 +36,7 @@ public class SimpleFileDAO implements FileDAO{
 
     @Override //it works!
     public FileEntity openFile(String path) throws IOException {
+        FileEntity fileEntity = new FileEntity();
         File file = new File(path);
         String text = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
         fileEntity.setPath(path);
@@ -42,7 +47,7 @@ public class SimpleFileDAO implements FileDAO{
 
     @Override //работает!
     public List<FileEntity> getFileNames(String path) {
-        file = new File(path);
+        File file = new File(path);
         List<FileEntity> filesList = new ArrayList<>();
         File[] files = file.listFiles();
         for (File f: files) {
@@ -57,7 +62,7 @@ public class SimpleFileDAO implements FileDAO{
 
     @Override //it works!
     public List<FileEntity> getDirectoryNames(String path) {
-        file = new File(path);
+        File file = new File(path);
         List<FileEntity> dirList = new ArrayList<>();
         File[] dirs = file.listFiles();
         for (File d: dirs) {
@@ -73,6 +78,7 @@ public class SimpleFileDAO implements FileDAO{
 
     @Override //works
     public FileEntity createDirectory(String path, String name) {
+        FileEntity fileEntity = new FileEntity();
         File file = new File(path, name);
         if (!file.exists()) {
             file.mkdir();
@@ -92,4 +98,24 @@ public class SimpleFileDAO implements FileDAO{
             e.printStackTrace();
         }
     }
+
+    @Override
+    public Map<String, String> openNote(String path) {
+        Map<String, String> notesMap = fileNotes.get(path);
+        return notesMap;
+    }
+
+    @Override
+    public FileEntity makeNote(String path, String fileName, String text) {
+        FileEntity fileEntity = new FileEntity();
+        fileEntity.setName(fileName);
+        Map<String, String> notes = fileEntity.getNotes();
+        Date currentDate = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        String date = formatter.format(currentDate);
+        notes.put(date, text);
+        fileNotes.put(path, notes);
+        return fileEntity;
+    }
+
 }

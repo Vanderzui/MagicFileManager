@@ -6,15 +6,12 @@ import com.dao.FileDAO;
 import com.dao.SimpleFileDAO;
 import com.dto.FileDto;
 import com.entities.FileEntity;
-import com.entities.Note;
 import com.model.FileModel;
-import org.apache.commons.io.FileUtils;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 public class SimpleFileService implements FileService {
     private final EntityToModelConverter entityToModelConverter = new EntityToModelConverter();
@@ -118,14 +115,18 @@ public class SimpleFileService implements FileService {
     }
 
     @Override
-    public void openNote(File file) {
-
+    public Map<String, String> openNote(String path) {
+        Map<String, String> notesMap = fileDAO.openNote(path);
+        return notesMap;
     }
 
     @Override
-    public void writeToNote(String text) {
-
+    public FileDto makeNote(String path, String fileName, String text) {
+        FileModel fileModel = entityToModelConverter.fileEntityToFileModel(fileDAO.makeNote(path, fileName, text));
+        FileDto fileDto = modelToDtoConverter.fileModelToFileDto(fileModel);
+        return fileDto;
     }
+
 }
 
 

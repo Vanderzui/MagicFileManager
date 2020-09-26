@@ -11,6 +11,14 @@
     <title>Note</title>
 </head>
 <body>
-
-</body>
-</html>
+<table>
+   <c:forEach items="${note}" var="note">
+       <br> ${note} <br>
+   </c:forEach>
+    </table>
+<form method="post">
+<input type="text" name="input" > <br>
+    <input type="text" name="fileName" >
+    <br><button type="submit">Submit</button> </form>
+    </body>
+    </html>

@@ -28,8 +28,10 @@
             <button>Delete</button>
         </form>  </td>
 
-     <td> <a href="/note">note</a></td>
-
+     <td> <form method="get">
+         <input type="hidden" name="fileName" value="${file.name}">
+      <a href="/note">note</a>
+     </form></td>
  </tr>
     </c:forEach>
 </table>

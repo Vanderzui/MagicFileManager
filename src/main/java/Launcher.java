@@ -8,7 +8,9 @@ import com.service.SimpleFileService;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public class Launcher {
@@ -40,5 +42,9 @@ public class Launcher {
         FileDto fileDto = new ModelToDtoConverter().fileModelToFileDto(fileModel);
         fileDto.setName(fileModel.getName());
         System.out.println(directoryNames.contains(fileDto));
+
+        Date currentDate = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        String format = formatter.format(currentDate);
     }
 }
