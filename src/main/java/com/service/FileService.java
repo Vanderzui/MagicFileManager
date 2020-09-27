@@ -30,6 +30,6 @@ public interface FileService {
 
     public Map<String, String> openNote(String fileName);
 
-    abstract FileDto makeNote(String path, String fileName, String text);
+    abstract void makeNote(String path, String text);
 
 }

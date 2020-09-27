@@ -41,7 +41,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>NoteServlet</servlet-name>
-        <url-pattern>/note</url-pattern>
+        <url-pattern>/note/*</url-pattern>
     </servlet-mapping>
 
 

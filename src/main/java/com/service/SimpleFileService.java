@@ -121,10 +121,8 @@ public class SimpleFileService implements FileService {
     }
 
     @Override
-    public FileDto makeNote(String path, String fileName, String text) {
-        FileModel fileModel = entityToModelConverter.fileEntityToFileModel(fileDAO.makeNote(path, fileName, text));
-        FileDto fileDto = modelToDtoConverter.fileModelToFileDto(fileModel);
-        return fileDto;
+    public void makeNote(String path, String text) {
+        fileDAO.makeNote(path, text);
     }
 
 }

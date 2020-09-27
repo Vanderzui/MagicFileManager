@@ -21,6 +21,6 @@ public interface FileDAO {
 
     Map<String, String> openNote (String path);
 
-    FileEntity makeNote(String path, String fileName, String text);
+    void makeNote(String path, String text);
 
 }

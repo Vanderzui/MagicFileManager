@@ -29,8 +29,8 @@
         </form>  </td>
 
      <td> <form method="get">
-         <input type="hidden" name="fileName" value="${file.name}">
-      <a href="/note">note</a>
+<%--         <input type="hidden" name="fileName" value="${file}">--%>
+      <a href="/note/${file}">note</a>
      </form></td>
  </tr>
     </c:forEach>

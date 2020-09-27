@@ -18,7 +18,6 @@
     </table>
 <form method="post">
 <input type="text" name="input" > <br>
-    <input type="text" name="fileName" >
     <br><button type="submit">Submit</button> </form>
     </body>
     </html>

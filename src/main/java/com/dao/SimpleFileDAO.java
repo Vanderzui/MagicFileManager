@@ -99,23 +99,26 @@ public class SimpleFileDAO implements FileDAO{
         }
     }
 
+
+
     @Override
     public Map<String, String> openNote(String path) {
+        if(!fileNotes.containsKey(path)) {
+            fileNotes.put(path, new HashMap<>());
+        }
         Map<String, String> notesMap = fileNotes.get(path);
         return notesMap;
     }
 
     @Override
-    public FileEntity makeNote(String path, String fileName, String text) {
-        FileEntity fileEntity = new FileEntity();
-        fileEntity.setName(fileName);
-        Map<String, String> notes = fileEntity.getNotes();
+    public void makeNote(String path, String text) {
+//        FileEntity fileEntity = new FileEntity();
+//        Map<String, String> notes = fileEntity.getNotes();
+        Map<String, String> mapNotes = fileNotes.get(path);
         Date currentDate = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         String date = formatter.format(currentDate);
-        notes.put(date, text);
-        fileNotes.put(path, notes);
-        return fileEntity;
+        mapNotes.put(date, text);
     }
 
 }
