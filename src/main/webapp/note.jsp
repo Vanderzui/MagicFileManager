@@ -13,7 +13,7 @@
 <body>
 <table>
    <c:forEach items="${note}" var="note">
-       <br> ${note} <br>
+       <tr><td> ${note} </td></tr>
    </c:forEach>
     </table>
 <form method="post">
