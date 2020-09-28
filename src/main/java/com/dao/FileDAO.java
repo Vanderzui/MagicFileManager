@@ -23,4 +23,6 @@ public interface FileDAO {
 
     void makeNote(String path, String text);
 
+    void deleteNote(String path);
+
 }

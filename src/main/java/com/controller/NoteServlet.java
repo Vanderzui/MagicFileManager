@@ -18,17 +18,18 @@ public class NoteServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String contextPath = req.getRequestURI(); // /note
+        String contextPath = simpleFileService.checkURL(req.getRequestURI());
 //        String fileName = req.getParameter("fileName");
         Map<String, String> notesMap = simpleFileService.openNote(contextPath);
         req.setAttribute("note", notesMap);
+        req.setAttribute("close", simpleFileService.checkURL(req.getRequestURI()).replace("/note", "").replace("file","root") + "/..");
         RequestDispatcher requestDispatcher = req.getRequestDispatcher( "/note.jsp");
         requestDispatcher.forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String contextPath = req.getRequestURI();
+        String contextPath = simpleFileService.checkURL(req.getRequestURI());
         String inputText = req.getParameter("input");
         simpleFileService.makeNote(contextPath, inputText);
         doGet(req, resp);

@@ -23,7 +23,7 @@ public class FileThingsServlet extends HttpServlet {
             if(new File(contextPath).isFile()) {
                 FileDto open = simpleFileService.openFile(contextPath);
                 req.setAttribute("result", open.getText());
-                req.setAttribute("close", req.getRequestURI().replace("file","root") + "/..");
+                req.setAttribute("close", simpleFileService.checkURL(req.getRequestURI()).replace("file","root") + "/..");
                 RequestDispatcher requestDispatcher = req.getRequestDispatcher(req.getContextPath() + "/openFile.jsp");
                 requestDispatcher.forward(req, resp);
             }

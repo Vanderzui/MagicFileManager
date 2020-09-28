@@ -14,6 +14,8 @@ public interface FileService {
 
     abstract FileDto createDirectory(String path, String name);
 
+    String checkURL(String path);
+
     abstract void delete(String path);
 
     abstract void write(String path, String text);
@@ -31,5 +33,7 @@ public interface FileService {
     public Map<String, String> openNote(String fileName);
 
     abstract void makeNote(String path, String text);
+
+    public void deleteNote(String path);
 
 }

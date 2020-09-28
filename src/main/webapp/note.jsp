@@ -19,5 +19,9 @@
 <form method="post">
 <input type="text" name="input" > <br>
     <br><button type="submit">Submit</button> </form>
+
+<div>
+    <button onclick="location.href='${close}'">Close</button>
+</div>
     </body>
     </html>

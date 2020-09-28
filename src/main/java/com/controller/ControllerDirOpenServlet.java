@@ -22,20 +22,20 @@ public class ControllerDirOpenServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String contextPath = ROOT + req.getRequestURI().substring(5);
+        String contextPath = ROOT + simpleFileService.checkURL(req.getRequestURI()).substring(5);
         if (new File(contextPath).isDirectory()) {
             List<FileDto> myFiles = simpleFileService.getFileNames(contextPath);
             List<FileDto> myDir = simpleFileService.getDirectoryNames(contextPath);
-            String urlDir = req.getRequestURI();
-            String urlFile = req.getRequestURI().replace("root", "file");
+            String urlDir = simpleFileService.checkURL(req.getRequestURI());
+            String urlFile = simpleFileService.checkURL(req.getRequestURI()).replace("root", "file");
             req.setAttribute("urlDir", urlDir);
             req.setAttribute("urlFile", urlFile);
             req.setAttribute("directories", myDir);
             req.setAttribute("files", myFiles);
-            String back = req.getRequestURI() + "/..";
+            String back = simpleFileService.checkURL(req.getRequestURI()) + "/..";
             req.setAttribute("back", back);
 //            req.setAttribute("back", req.getRequestURI());
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher(req.getContextPath() + "/openDir.jsp");
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher(simpleFileService.checkURL(req.getContextPath()) + "/openDir.jsp");
             requestDispatcher.forward(req, resp);
         }
     }
@@ -58,6 +58,7 @@ public class ControllerDirOpenServlet extends HttpServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String contextPath = ROOT + req.getRequestURI().substring(5);
         String fileToDelete = req.getParameter("delete");
+        simpleFileService.deleteNote(simpleFileService.checkURL(req.getRequestURI())+ "/" + fileToDelete);
         simpleFileService.delete(contextPath + "/" + fileToDelete);
         doGet(req, resp);
     }

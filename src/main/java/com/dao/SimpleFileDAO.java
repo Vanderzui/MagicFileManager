@@ -121,4 +121,11 @@ public class SimpleFileDAO implements FileDAO{
         mapNotes.put(date, text);
     }
 
+    @Override
+    public void deleteNote(String path) {
+        path = ("/note" + path).replace("root", "file");
+        if(fileNotes.containsKey(path)) {
+            fileNotes.remove(path);
+        }
+    }
 }

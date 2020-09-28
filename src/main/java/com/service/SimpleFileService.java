@@ -32,6 +32,7 @@ public class SimpleFileService implements FileService {
        return fileDto;
     }
 
+
     @Override //it works!!
     public List<FileDto> getFileNames(String path) {
         List<FileEntity> fileNames = fileDAO.getFileNames(path);
@@ -125,6 +126,18 @@ public class SimpleFileService implements FileService {
         fileDAO.makeNote(path, text);
     }
 
+    @Override
+    public void deleteNote(String path) {
+        fileDAO.deleteNote(path);
+    }
+
+    @Override
+    public String checkURL(String path) {
+        if(path.endsWith("/")) {
+            path = path.substring(0, path.length()-1);
+        }
+        return path;
+    }
 }
 
 
