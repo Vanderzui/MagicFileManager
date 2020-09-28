@@ -1,15 +1,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="java.io.PrintWriter" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.Iterator" %>
-<%@ page import="com.service.SimpleFileService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ page isELIgnored="false" %>
+<%@ page session="true" %>
+
+
 
 <!DOCTYPE html>
-<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>Волшебный проводник</title>
+
 </head>
 <body>
 <div style="text-align: center;">

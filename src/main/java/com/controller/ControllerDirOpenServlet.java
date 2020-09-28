@@ -34,7 +34,6 @@ public class ControllerDirOpenServlet extends HttpServlet {
             req.setAttribute("files", myFiles);
             String back = simpleFileService.checkURL(req.getRequestURI()) + "/..";
             req.setAttribute("back", back);
-//            req.setAttribute("back", req.getRequestURI());
             RequestDispatcher requestDispatcher = req.getRequestDispatcher(simpleFileService.checkURL(req.getContextPath()) + "/openDir.jsp");
             requestDispatcher.forward(req, resp);
         }
@@ -43,10 +42,11 @@ public class ControllerDirOpenServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String contextPath = ROOT + req.getRequestURI().substring(5);
-        String fileToDelete = req.getParameter("delete");
+        req.getSession(true).setAttribute("local", req.getParameter("local"));
+//        String fileToDelete = req.getParameter("delete");
         doDelete(req, resp);
-        List<FileDto> myFiles = simpleFileService.getFileNames(contextPath);
-        List<FileDto> myDir = simpleFileService.getDirectoryNames(contextPath);
+        simpleFileService.getFileNames(contextPath);
+        simpleFileService.getDirectoryNames(contextPath);
         String dirName = req.getParameter("dirName");
         simpleFileService.createDirectory(contextPath, dirName);
         String fileName = req.getParameter("fileName");

@@ -31,6 +31,8 @@ public class FileThingsServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if(!req.getParameter("local").isEmpty()) {
+        req.getSession(true).setAttribute("local", req.getParameter("local"));
         String input = req.getParameter("input");
         String contextPath = root + req.getRequestURI().substring(5);
         simpleFileService.write(contextPath, input);
