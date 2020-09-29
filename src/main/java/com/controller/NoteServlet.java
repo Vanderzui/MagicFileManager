@@ -29,9 +29,14 @@ public class NoteServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String contextPath = simpleFileService.checkURL(req.getRequestURI());
-        String inputText = req.getParameter("input");
-        simpleFileService.makeNote(contextPath, inputText);
-        doGet(req, resp);
+        if (req.getParameter("local") != null) {
+            req.getSession(true).setAttribute("local", req.getParameter("local"));
+            doGet(req, resp);
+        } else {
+            String contextPath = simpleFileService.checkURL(req.getRequestURI());
+            String inputText = req.getParameter("input");
+            simpleFileService.makeNote(contextPath, inputText);
+            doGet(req, resp);
+        }
     }
 }

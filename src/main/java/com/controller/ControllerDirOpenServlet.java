@@ -43,22 +43,24 @@ public class ControllerDirOpenServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String contextPath = ROOT + req.getRequestURI().substring(5);
         req.getSession(true).setAttribute("local", req.getParameter("local"));
-//        String fileToDelete = req.getParameter("delete");
-        doDelete(req, resp);
-        simpleFileService.getFileNames(contextPath);
-        simpleFileService.getDirectoryNames(contextPath);
-        String dirName = req.getParameter("dirName");
-        simpleFileService.createDirectory(contextPath, dirName);
-        String fileName = req.getParameter("fileName");
-        simpleFileService.createFile(contextPath, fileName);
-        doGet(req, resp);
+        if (req.getParameter("delete") != null) {
+            doDelete(req, resp);
+        } else {
+            simpleFileService.getFileNames(contextPath);
+            simpleFileService.getDirectoryNames(contextPath);
+            String dirName = req.getParameter("dirName");
+            simpleFileService.createDirectory(contextPath, dirName);
+            String fileName = req.getParameter("fileName");
+            simpleFileService.createFile(contextPath, fileName);
+            doGet(req, resp);
+        }
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String contextPath = ROOT + req.getRequestURI().substring(5);
         String fileToDelete = req.getParameter("delete");
-        simpleFileService.deleteNote(simpleFileService.checkURL(req.getRequestURI())+ "/" + fileToDelete);
+        simpleFileService.deleteNote(simpleFileService.checkURL(req.getRequestURI()) + "/" + fileToDelete);
         simpleFileService.delete(contextPath + "/" + fileToDelete);
         doGet(req, resp);
     }

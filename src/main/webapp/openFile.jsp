@@ -18,11 +18,9 @@
 <fmt:message bundle="${loc}" key="local.submit" var="submitS" />
 
 <head>
-    <h><title>хихихи</title></h>
+    <h><title>Файл</title></h>
 </head>
 <body>
-Вот че тут есть:
-
 <form method="post">
     <textarea rows="50" cols="100">
         ${result}
