@@ -44,11 +44,4 @@ public class FileThingsServlet extends HttpServlet {
             doGet(req, resp);
         }
     }
-
-//    @Override
-//    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        simpleFileService.delete(root + req.getRequestURI());
-//        RequestDispatcher rd = req.getRequestDispatcher("index.jsp");
-//        rd.forward(req, resp);
-//    }
 }

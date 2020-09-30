@@ -22,10 +22,10 @@
 </head>
 <body>
 <form method="post">
-    <textarea rows="50" cols="100">
+    <textarea rows="50" cols="100" input type="text" name="input">
         ${result}
     </textarea>
-    <input type="text" name="input" >
+<%--    <input type="text" name="input" >--%>
     <br>
     <button type="submit">${submitS}</button>
     <br>

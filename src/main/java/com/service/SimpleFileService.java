@@ -7,7 +7,12 @@ import com.dao.SimpleFileDAO;
 import com.dto.FileDto;
 import com.entities.FileEntity;
 import com.model.FileModel;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -137,6 +142,19 @@ public class SimpleFileService implements FileService {
             path = path.substring(0, path.length()-1);
         }
         return path;
+    }
+
+    public void uploadFile(HttpServletRequest req) throws Exception {
+        final String UPLOAD_DIRECTORY = "D:/";
+        FileItemFactory factory = new DiskFileItemFactory();
+        ServletFileUpload upload = new ServletFileUpload(factory);
+        List<FileItem> multiparts = upload.parseRequest(req);
+        for (FileItem item : multiparts) {
+            if (!item.isFormField()) {
+                String name = new File(item.getName()).getName();
+                item.write(new File(UPLOAD_DIRECTORY + File.separator + name));
+            }
+        }
     }
 }
 

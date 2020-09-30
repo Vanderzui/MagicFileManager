@@ -44,6 +44,15 @@
         <url-pattern>/note/*</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>DownloadServlet</servlet-name>
+        <servlet-class>com.controller.DownloadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DownloadServlet</servlet-name>
+        <url-pattern>/download/*</url-pattern>
+    </servlet-mapping>
+
 
 
     <welcome-file-list>
@@ -51,5 +60,11 @@
     </welcome-file-list>
 
 
+
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
 
 </web-app>
