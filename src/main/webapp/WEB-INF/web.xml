@@ -8,6 +8,11 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
     <display-name>Archetype Created Web Application</display-name>
+
+    <icon>
+        <small-icon>/icons</small-icon>
+    </icon>
+
     <servlet>
         <servlet-name>dirOpenServlet</servlet-name>
         <servlet-class>com.controller.ControllerDirOpenServlet</servlet-class>

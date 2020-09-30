@@ -39,8 +39,8 @@ public class FileThingsServlet extends HttpServlet {
             String input = req.getParameter("input");
             String contextPath = root + req.getRequestURI().substring(5);
             simpleFileService.write(contextPath, input);
-            String change = simpleFileService.openFile(contextPath) + input;
-            req.setAttribute("result", change);
+            //String change = simpleFileService.openFile(contextPath) + input;
+            //req.setAttribute("result", change);
             doGet(req, resp);
         }
     }

@@ -1,6 +1,5 @@
 package com.model;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,18 +20,8 @@ public class FileModel {
         this.notes = notes;
     }
 
-    public FileModel(String text) {
-        this.text = text;
-    }
-
     public FileModel(String path, String text) {
         this.path = path;
-        this.text = text;
-    }
-
-    public FileModel(String path, String name, String text) {
-        this.path = path;
-        this.name = name;
         this.text = text;
     }
 

@@ -24,6 +24,8 @@
 <fmt:message bundle="${loc}" key="local.note" var="noteN"/>
 <fmt:message bundle="${loc}" key="local.back" var="backback"/>
 <fmt:message bundle="${loc}" key="local.upload" var="uploadF"/>
+<fmt:message bundle="${loc}" key="local.download" var="downloadD"/>
+
 
 <head>
     <title>Directories</title>
@@ -47,7 +49,7 @@
             <td>
                 <form method="get">
                     <a href="/note${urlFile}/${file}" class="w3-button w3-tiny w3-circle w3-white w3-border w3-blue">${noteN}</a>
-                    <a href="/download/${file}">download</a>
+                    <a href="/download/${file}">${downloadD}</a>
                 </form>
             </td>
         </tr>
@@ -87,7 +89,6 @@
         <input type = "file" name = "file" size = "50" />
         <br/>
         <input type = "submit" value = "${uploadF}" />
-        ${messageUpload}
     </form>
 </div>
     <c:out value="${message}"/>

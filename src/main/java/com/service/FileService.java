@@ -1,39 +1,36 @@
 package com.service;
 
 import com.dto.FileDto;
-import com.entities.FileEntity;
-import com.model.FileModel;
 
-import java.io.File;
+import javax.servlet.http.Part;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 public interface FileService {
-    abstract FileDto createFile(String path, String fileName);
+    FileDto createFile(String path, String fileName);
 
-    abstract FileDto createDirectory(String path, String name);
+    FileDto createDirectory(String path, String name);
 
     String checkURL(String path);
 
-    abstract void delete(String path);
+    void delete(String path);
 
-    abstract void write(String path, String text);
+    void write(String path, String text);
 
-    //abstract String openFile(String path) throws IOException;
+    FileDto openFile(String path) throws IOException;
 
-    abstract FileDto openFile(String path) throws IOException;
+    List<FileDto> getFileNames(String path);
 
-//     abstract List<String> getNames(String path, String fileName);
+    List<FileDto> getDirectoryNames(String path);
 
-    abstract List<FileDto> getFileNames(String path);
+    Map<String, String> openNote(String fileName);
 
-    abstract List<FileDto> getDirectoryNames(String path);
+    void makeNote(String path, String text);
 
-    public Map<String, String> openNote(String fileName);
+    void deleteNote(String path);
 
-    abstract void makeNote(String path, String text);
+    String getFileName(Part part);
 
-    public void deleteNote(String path);
 
 }

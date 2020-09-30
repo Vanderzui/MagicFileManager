@@ -5,8 +5,13 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SimpleFileDAO implements FileDAO{
+public class SimpleFileDAO implements FileDAO {
     Map<String, Map<String, String>> fileNotes = new HashMap<>();
 
     @Override //works!
@@ -34,7 +39,7 @@ public class SimpleFileDAO implements FileDAO{
         return fileEntity;
     }
 
-    @Override //it works!
+    @Override
     public FileEntity openFile(String path) throws IOException {
         FileEntity fileEntity = new FileEntity();
         File file = new File(path);
@@ -42,16 +47,15 @@ public class SimpleFileDAO implements FileDAO{
         fileEntity.setPath(path);
         fileEntity.setText(text);
         return fileEntity;
-
     }
 
-    @Override //работает!
+    @Override
     public List<FileEntity> getFileNames(String path) {
         File file = new File(path);
         List<FileEntity> filesList = new ArrayList<>();
         File[] files = file.listFiles();
-        for (File f: files) {
-            if(f.isFile()) {
+        for (File f : files) {
+            if (f.isFile()) {
                 FileEntity fileEntity = new FileEntity();
                 fileEntity.setName(f.getName());
                 filesList.add(fileEntity);
@@ -60,13 +64,13 @@ public class SimpleFileDAO implements FileDAO{
         return filesList;
     }
 
-    @Override //it works!
+    @Override
     public List<FileEntity> getDirectoryNames(String path) {
         File file = new File(path);
         List<FileEntity> dirList = new ArrayList<>();
         File[] dirs = file.listFiles();
-        for (File d: dirs) {
-            if(d.isDirectory()) {
+        for (File d : dirs) {
+            if (d.isDirectory()) {
                 FileEntity fileEntity = new FileEntity();
                 fileEntity.setName(d.getName());
                 dirList.add(fileEntity);
@@ -76,7 +80,7 @@ public class SimpleFileDAO implements FileDAO{
     }
 
 
-    @Override //works
+    @Override
     public FileEntity createDirectory(String path, String name) {
         FileEntity fileEntity = new FileEntity();
         File file = new File(path, name);
@@ -90,7 +94,8 @@ public class SimpleFileDAO implements FileDAO{
 
     @Override
     public void write(String path, String text) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File(path), true))) {
+        new File(path).delete();
+        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), StandardCharsets.UTF_8))) {
             writer.write(text);
             writer.newLine();
             writer.flush();
@@ -100,10 +105,9 @@ public class SimpleFileDAO implements FileDAO{
     }
 
 
-
     @Override
     public Map<String, String> openNote(String path) {
-        if(!fileNotes.containsKey(path)) {
+        if (!fileNotes.containsKey(path)) {
             fileNotes.put(path, new HashMap<>());
         }
         Map<String, String> notesMap = fileNotes.get(path);
@@ -124,7 +128,7 @@ public class SimpleFileDAO implements FileDAO{
     @Override
     public void deleteNote(String path) {
         path = ("/note" + path).replace("root", "file");
-        if(fileNotes.containsKey(path)) {
+        if (fileNotes.containsKey(path)) {
             fileNotes.remove(path);
         }
     }

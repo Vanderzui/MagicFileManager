@@ -1,6 +1,5 @@
 package com.controller;
 
-import com.dto.FileDto;
 import com.service.FileService;
 import com.service.SimpleFileService;
 
@@ -19,11 +18,10 @@ public class NoteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String contextPath = simpleFileService.checkURL(req.getRequestURI());
-//        String fileName = req.getParameter("fileName");
         Map<String, String> notesMap = simpleFileService.openNote(contextPath);
         req.setAttribute("note", notesMap);
-        req.setAttribute("close", simpleFileService.checkURL(req.getRequestURI()).replace("/note", "").replace("file","root") + "/..");
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher( "/note.jsp");
+        req.setAttribute("close", simpleFileService.checkURL(req.getRequestURI()).replace("/note", "").replace("file", "root") + "/..");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/note.jsp");
         requestDispatcher.forward(req, resp);
     }
 
