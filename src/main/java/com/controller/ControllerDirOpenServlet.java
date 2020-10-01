@@ -30,10 +30,12 @@ public class ControllerDirOpenServlet extends HttpServlet {
             List<FileDto> myDir = simpleFileService.getDirectoryNames(contextPath);
             String urlDir = simpleFileService.checkURL(req.getRequestURI());
             String urlFile = simpleFileService.checkURL(req.getRequestURI()).replace("root", "file");
+            String urlDownload = simpleFileService.checkURL(req.getRequestURI()).replace("root", "download");
             req.setAttribute("urlDir", urlDir);
             req.setAttribute("urlFile", urlFile);
             req.setAttribute("directories", myDir);
             req.setAttribute("files", myFiles);
+            req.setAttribute("download", urlDownload);
             String back = simpleFileService.checkURL(req.getRequestURI()) + "/..";
             req.setAttribute("back", back);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher(simpleFileService.checkURL(req.getContextPath()) + "/openDir.jsp");

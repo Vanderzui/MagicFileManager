@@ -3,8 +3,10 @@ package com.service;
 import com.dto.FileDto;
 
 import javax.servlet.http.Part;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +40,9 @@ public interface FileService {
     String getFileExtension(String name);
 
     String getIcons(String extension) throws IOException;
+
+     void downloadFile(FileInputStream fileInputStream, OutputStream os) throws IOException;
+
 
 
 }

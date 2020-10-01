@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -170,6 +171,17 @@ public class SimpleFileService implements FileService {
             }
         }
         return "";
+    }
+
+    public void downloadFile(FileInputStream fileInputStream, OutputStream os) throws IOException {
+        int BYTES_DOWNLOAD = 1024;
+        int read = 0;
+        byte[] bytes = new byte[BYTES_DOWNLOAD];
+        while ((read = fileInputStream.read(bytes)) != -1) {
+            os.write(bytes, 0, read);
+        }
+        os.flush();
+        os.close();
     }
 }
 

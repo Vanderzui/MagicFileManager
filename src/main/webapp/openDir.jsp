@@ -43,7 +43,7 @@
             <td>
                 <form method="get">
                     <a href="/note${urlFile}/${file}" class="w3-button w3-tiny w3-circle w3-white w3-border w3-blue">${noteN}</a>
-                    <a href="/download/${file}">${downloadD}</a>
+                    <a href="${download}/${file}">${downloadD}</a>
                 </form>
             </td>
         </tr>
