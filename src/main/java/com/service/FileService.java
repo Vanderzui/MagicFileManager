@@ -3,11 +3,14 @@ package com.service;
 import com.dto.FileDto;
 
 import javax.servlet.http.Part;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 public interface FileService {
+    String getRootDir() throws IOException;
+
     FileDto createFile(String path, String fileName);
 
     FileDto createDirectory(String path, String name);
@@ -31,6 +34,10 @@ public interface FileService {
     void deleteNote(String path);
 
     String getFileName(Part part);
+
+    String getFileExtension(String name);
+
+    void getIcons() throws IOException;
 
 
 }

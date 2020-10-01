@@ -13,7 +13,6 @@ import java.util.Map;
 
 public class NoteServlet extends HttpServlet {
     private FileService simpleFileService = new SimpleFileService();
-    public String root = "D:/myDir";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -27,6 +26,7 @@ public class NoteServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         if (req.getParameter("local") != null) {
             req.getSession(true).setAttribute("local", req.getParameter("local"));
             doGet(req, resp);

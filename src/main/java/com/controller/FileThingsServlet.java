@@ -16,11 +16,10 @@ import java.io.IOException;
 @WebServlet(name = "com.controller.FileThingsServlet")
 public class FileThingsServlet extends HttpServlet {
     private FileService simpleFileService = new SimpleFileService();
-    public String root = "D:/myDir";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String contextPath = root + req.getRequestURI().substring(5);
+        String contextPath = simpleFileService.getRootDir() + req.getRequestURI().substring(5);
         if (new File(contextPath).isFile()) {
             FileDto open = simpleFileService.openFile(contextPath);
             req.setAttribute("result", open.getText());
@@ -32,12 +31,13 @@ public class FileThingsServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         if (req.getParameter("local") != null) {
             req.getSession(true).setAttribute("local", req.getParameter("local"));
             doGet(req, resp);
         } else {
             String input = req.getParameter("input");
-            String contextPath = root + req.getRequestURI().substring(5);
+            String contextPath = simpleFileService.getRootDir() + req.getRequestURI().substring(5);
             simpleFileService.write(contextPath, input);
             //String change = simpleFileService.openFile(contextPath) + input;
             //req.setAttribute("result", change);

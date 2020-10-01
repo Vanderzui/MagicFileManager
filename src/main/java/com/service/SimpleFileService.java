@@ -9,19 +9,28 @@ import com.entities.FileEntity;
 import com.model.FileModel;
 
 import javax.servlet.http.Part;
-import javax.swing.*;
-import java.beans.BeanInfo;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 public class SimpleFileService implements FileService {
     private final EntityToModelConverter entityToModelConverter = new EntityToModelConverter();
     private final ModelToDtoConverter modelToDtoConverter = new ModelToDtoConverter();
     FileDAO fileDAO = new SimpleFileDAO();
 
+    @Override
+    public String getRootDir() throws IOException {
+        Properties properties = new Properties();
+        InputStream input = getClass().getResourceAsStream("/props.xml");
+        properties.loadFromXML(input);
+        String root = properties.getProperty("ROOT");
+        return root;
+    }
 
     @Override
     public FileDto openFile(String path) throws IOException {
@@ -37,6 +46,13 @@ public class SimpleFileService implements FileService {
         return fileDto;
     }
 
+    @Override
+    public String getFileExtension(String name) {
+        if(name.contains(".")) {
+            return name.substring(name.lastIndexOf('.'));
+        }
+        return "";
+    }
 
     @Override
     public List<FileDto> getFileNames(String path) {
@@ -136,7 +152,16 @@ public class SimpleFileService implements FileService {
         return "";
     }
 
-
+    @Override
+    public void getIcons() throws IOException {
+        String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+        String iconConfigPath = rootPath + "props.xml";
+        Properties prop = new Properties();
+        prop.loadFromXML(new FileInputStream(iconConfigPath));
+        String txtIcon = prop.getProperty("textIcon");
+        String imgIcon = prop.getProperty("imageIcon");
+        String pdfIcon = prop.getProperty("pdfIcon");
+    }
 }
 
 

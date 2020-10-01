@@ -21,11 +21,10 @@ import java.util.List;
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 10, maxFileSize = 1024 * 1024 * 50, maxRequestSize = 1024 * 1024 * 100)
 public class ControllerDirOpenServlet extends HttpServlet {
     private FileService simpleFileService = new SimpleFileService();
-    public static final String ROOT = "D:/myDir";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String contextPath = ROOT + simpleFileService.checkURL(req.getRequestURI()).substring(5);
+        String contextPath = simpleFileService.getRootDir() + simpleFileService.checkURL(req.getRequestURI()).substring(5);
         if (new File(contextPath).isDirectory()) {
             List<FileDto> myFiles = simpleFileService.getFileNames(contextPath);
             List<FileDto> myDir = simpleFileService.getDirectoryNames(contextPath);
@@ -44,7 +43,8 @@ public class ControllerDirOpenServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String contextPath = ROOT + req.getRequestURI().substring(5);
+        req.setCharacterEncoding("UTF-8");
+        String contextPath = simpleFileService.getRootDir() + req.getRequestURI().substring(5);
         if (req.getParameter("local") != null) {
             req.getSession(true).setAttribute("local", req.getParameter("local"));
             doGet(req, resp);
@@ -69,9 +69,9 @@ public class ControllerDirOpenServlet extends HttpServlet {
     private void uploadFile(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String dirForSave;
         if (req.getPathInfo() == null) {
-            dirForSave = ROOT;
+            dirForSave = simpleFileService.getRootDir();
         } else {
-            dirForSave = ROOT + File.separator + req.getPathInfo();
+            dirForSave = simpleFileService.getRootDir() + File.separator + req.getPathInfo();
         }
         String fileName = null;
         for (Part part : req.getParts()) {
@@ -84,7 +84,7 @@ public class ControllerDirOpenServlet extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String contextPath = ROOT + req.getRequestURI().substring(5);
+        String contextPath = simpleFileService.getRootDir() + req.getRequestURI().substring(5);
         String fileToDelete = req.getParameter("delete");
         simpleFileService.deleteNote(simpleFileService.checkURL(req.getRequestURI()) + "/" + fileToDelete);
         simpleFileService.delete(contextPath + "/" + fileToDelete);

@@ -5,13 +5,9 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,7 +19,7 @@ import java.util.Map;
 public class SimpleFileDAO implements FileDAO {
     Map<String, Map<String, String>> fileNotes = new HashMap<>();
 
-    @Override //works!
+    @Override
     public FileEntity createFile(String path, String name) {
         FileEntity fileEntity = new FileEntity();
         File file = new File(path, name);
