@@ -23,7 +23,7 @@ public interface FileService {
 
     FileDto openFile(String path) throws IOException;
 
-    List<FileDto> getFileNames(String path);
+    List<FileDto> getFileNames(String path) throws IOException;
 
     List<FileDto> getDirectoryNames(String path);
 
@@ -37,7 +37,7 @@ public interface FileService {
 
     String getFileExtension(String name);
 
-    void getIcons() throws IOException;
+    String getIcons(String extension) throws IOException;
 
 
 }

@@ -8,6 +8,7 @@ public class FileDto {
     String name;
     String text;
     private Map<String, String> notes = new HashMap<>();
+    String icon;
 
     public Map<String, String> getNotes() {
         return notes;
@@ -23,8 +24,16 @@ public class FileDto {
     public FileDto() {
     }
 
-    public FileDto(String name) {
-        this.name = name;
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public FileDto(String icon) {
+        this.icon = icon;
     }
 
     public FileDto(String path, String text) {

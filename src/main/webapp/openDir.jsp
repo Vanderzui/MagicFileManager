@@ -33,7 +33,7 @@
 <table>
     <c:forEach items="${files}" var="file">
         <tr>
-            <td><a href="${urlFile}/${file}" class="w3-button w3-purple w3-round-xxlarge">${file}</a></td>
+            <td><img src="/icons/${file.icon}"><span style="color: #663399; "><a href="${urlFile}/${file}">${file}</a></span></td>
             <td>
                 <form method="post">
                     <input type="hidden" name="delete" value="${file}">
@@ -54,7 +54,7 @@
 <table>
     <c:forEach items="${directories}" var="dir">
         <tr>
-            <td><a href="${urlDir}/${dir}" class="w3-button w3-pink w3-round-xxlarge">${dir}</a></td>
+            <td><a href="${urlDir}/${dir}" class="w3-button w3-purple w3-round-xxlarge">${dir}</a></td>
             <td>
                 <form method="post">
                     <input type="hidden" name="delete" value="${dir}">

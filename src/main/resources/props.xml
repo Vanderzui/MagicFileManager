@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-    <entry key="textIcon">txtI.png</entry>
-    <entry key="imageIcon">imageI.png</entry>
-    <entry key="pdfIcon">pdfI.png</entry>
+    <entry key=".txt">txtI.png</entry>
+    <entry key=".jpg">imageI.png</entry>
+    <entry key=".pdf">pdfI.png</entry>
+    <entry key="noEx">justfile.png</entry>
     <entry key="ROOT">D:/myDir</entry>
 </properties>

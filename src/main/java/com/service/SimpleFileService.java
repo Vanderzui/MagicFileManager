@@ -51,11 +51,29 @@ public class SimpleFileService implements FileService {
         if(name.contains(".")) {
             return name.substring(name.lastIndexOf('.'));
         }
-        return "";
+        return "noEx";
     }
 
     @Override
-    public List<FileDto> getFileNames(String path) {
+    public String getIcons(String extension) throws IOException {
+        Properties prop = new Properties();
+        InputStream input = getClass().getResourceAsStream("/props.xml");
+        prop.loadFromXML(input);
+        String icon;
+        if(extension.equals(".txt")) {
+            icon = prop.getProperty(".txt");
+        } else if(extension.equals(".jpg")) {
+            icon = prop.getProperty(".jpg");
+        } else if(extension.equals(".pdf")) {
+            icon = prop.getProperty(".pdf");
+        } else {
+            icon = prop.getProperty("noEx");
+        }
+        return icon;
+    }
+
+    @Override
+    public List<FileDto> getFileNames(String path) throws IOException {
         List<FileEntity> fileNames = fileDAO.getFileNames(path);
         List<FileModel> fileModels = new ArrayList<>();
         for (FileEntity fe : fileNames) {
@@ -67,6 +85,8 @@ public class SimpleFileService implements FileService {
         for (FileModel fm : fileModels) {
             FileDto fileDto = modelToDtoConverter.fileModelToFileDto(fm);
             fileDto.setName(fm.getName());
+            String icons = getIcons(getFileExtension(fm.getName()));
+            fileDto.setIcon(icons);
             fileDtos.add(fileDto);
         }
         return fileDtos;
@@ -150,17 +170,6 @@ public class SimpleFileService implements FileService {
             }
         }
         return "";
-    }
-
-    @Override
-    public void getIcons() throws IOException {
-        String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-        String iconConfigPath = rootPath + "props.xml";
-        Properties prop = new Properties();
-        prop.loadFromXML(new FileInputStream(iconConfigPath));
-        String txtIcon = prop.getProperty("textIcon");
-        String imgIcon = prop.getProperty("imageIcon");
-        String pdfIcon = prop.getProperty("pdfIcon");
     }
 }
 
