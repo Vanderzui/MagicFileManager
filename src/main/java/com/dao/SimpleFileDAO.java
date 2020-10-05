@@ -1,6 +1,7 @@
 package com.dao;
 
 import com.entities.FileEntity;
+import com.mysql.cj.jdbc.Driver;
 import org.apache.commons.io.FileUtils;
 
 import java.io.BufferedWriter;
@@ -117,10 +118,12 @@ public class SimpleFileDAO implements FileDAO {
         String username = prop.getProperty("username");
         String password = prop.getProperty("password");
         String resultNote = "No notes yet";
+        Driver driver = new Driver();
+        DriverManager.registerDriver(driver);
         try (Connection conn = DriverManager.getConnection(url, username, password)) {
             Statement statement = conn.createStatement();
             String sql;
-            sql = "SELECT date, text FROM note_table where path=" + path;
+            sql = "SELECT date, text FROM note_table where path='" + path + "'";
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
                 String date = resultSet.getString("date");
@@ -128,7 +131,6 @@ public class SimpleFileDAO implements FileDAO {
                 resultNote = date + " : " + text;
             }
         } catch (Exception ex) {
-            System.out.println("Connection failed...");
             System.out.println(ex);
         }
         return resultNote;
@@ -157,10 +159,9 @@ public class SimpleFileDAO implements FileDAO {
         try (Connection conn = DriverManager.getConnection(url, username, password)) {
             Statement statement = conn.createStatement();
             String sql;
-            sql = "INSERT into note_table(path, date, text) values(" + path + ", " + date + ", " + text + ")";
+            sql = "INSERT into note_table(path, date, text) values('" + path + "', '" + date + "', '" + text + "')";
             statement.executeUpdate(sql);
         } catch (Exception ex) {
-            System.out.println("Connection failed...");
             System.out.println(ex);
         }
 
