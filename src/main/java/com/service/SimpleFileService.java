@@ -14,6 +14,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -138,13 +139,13 @@ public class SimpleFileService implements FileService {
     }
 
     @Override
-    public Map<String, String> openNote(String path) {
-        Map<String, String> notesMap = fileDAO.openNote(path);
-        return notesMap;
+    public String openNote(String path) throws IOException, SQLException {
+        String openNote = fileDAO.openNote(path);
+        return openNote;
     }
 
     @Override
-    public void makeNote(String path, String text) {
+    public void makeNote(String path, String text) throws IOException, SQLException {
         fileDAO.makeNote(path, text);
     }
 

@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FileEntity {
-    String path;
-    String name;
-    String text;
+    private String path;
+    private String name;
+    private String text;
     private Map<String, String> notes = new HashMap<>();
 
     public FileEntity() {

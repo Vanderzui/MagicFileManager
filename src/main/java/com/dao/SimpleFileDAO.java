@@ -7,14 +7,21 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 public class SimpleFileDAO implements FileDAO {
     Map<String, Map<String, String>> fileNotes = new HashMap<>();
@@ -102,23 +109,64 @@ public class SimpleFileDAO implements FileDAO {
 
 
     @Override
-    public Map<String, String> openNote(String path) {
-        if (!fileNotes.containsKey(path)) {
-            fileNotes.put(path, new HashMap<>());
+    public String openNote(String path) throws IOException, SQLException {
+        Properties prop = new Properties();
+        InputStream input = getClass().getResourceAsStream("/databaseProperties.xml");
+        prop.loadFromXML(input);
+        String url = prop.getProperty("url");
+        String username = prop.getProperty("username");
+        String password = prop.getProperty("password");
+        String resultNote = "No notes yet";
+        try (Connection conn = DriverManager.getConnection(url, username, password)) {
+            Statement statement = conn.createStatement();
+            String sql;
+            sql = "SELECT date, text FROM note_table where path=" + path;
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                String date = resultSet.getString("date");
+                String text = resultSet.getString("text");
+                resultNote = date + " : " + text;
+            }
+        } catch (Exception ex) {
+            System.out.println("Connection failed...");
+            System.out.println(ex);
         }
-        Map<String, String> notesMap = fileNotes.get(path);
-        return notesMap;
+        return resultNote;
+
+
+//        if (!fileNotes.containsKey(path)) {
+//            fileNotes.put(path, new HashMap<>());
+//        }
+//        Map<String, String> notesMap = fileNotes.get(path);
+//        return notesMap;
+
     }
 
     @Override
-    public void makeNote(String path, String text) {
-//        FileEntity fileEntity = new FileEntity();
-//        Map<String, String> notes = fileEntity.getNotes();
-        Map<String, String> mapNotes = fileNotes.get(path);
+    public void makeNote(String path, String text) throws IOException, SQLException {
         Date currentDate = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         String date = formatter.format(currentDate);
-        mapNotes.put(date, text);
+
+        Properties prop = new Properties();
+        InputStream input = getClass().getResourceAsStream("/databaseProperties.xml");
+        prop.loadFromXML(input);
+        String url = prop.getProperty("url");
+        String username = prop.getProperty("username");
+        String password = prop.getProperty("password");
+        try (Connection conn = DriverManager.getConnection(url, username, password)) {
+            Statement statement = conn.createStatement();
+            String sql;
+            sql = "INSERT into note_table(path, date, text) values(" + path + ", " + date + ", " + text + ")";
+            statement.executeUpdate(sql);
+        } catch (Exception ex) {
+            System.out.println("Connection failed...");
+            System.out.println(ex);
+        }
+
+
+//        Map<String, String> mapNotes = fileNotes.get(path);
+//        mapNotes.put(date, text);
     }
 
     @Override

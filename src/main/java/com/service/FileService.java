@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -29,9 +30,9 @@ public interface FileService {
 
     List<FileDto> getDirectoryNames(String path);
 
-    Map<String, String> openNote(String fileName);
+    String openNote(String fileName) throws IOException, SQLException;
 
-    void makeNote(String path, String text);
+    void makeNote(String path, String text) throws IOException, SQLException;
 
     void deleteNote(String path);
 
