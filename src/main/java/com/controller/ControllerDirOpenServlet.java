@@ -3,6 +3,7 @@ package com.controller;
 import com.dto.FileDto;
 import com.service.FileService;
 import com.service.SimpleFileService;
+import lombok.SneakyThrows;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import javax.servlet.RequestDispatcher;
@@ -84,6 +85,7 @@ public class ControllerDirOpenServlet extends HttpServlet {
     }
 
 
+    @SneakyThrows
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String contextPath = simpleFileService.getRootDir() + req.getRequestURI().substring(5);

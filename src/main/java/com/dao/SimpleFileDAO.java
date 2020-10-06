@@ -19,13 +19,10 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 public class SimpleFileDAO implements FileDAO {
-    Map<String, Map<String, String>> fileNotes = new HashMap<>();
 
     @Override
     public FileEntity createFile(String path, String name) {
@@ -117,31 +114,23 @@ public class SimpleFileDAO implements FileDAO {
         String url = prop.getProperty("url");
         String username = prop.getProperty("username");
         String password = prop.getProperty("password");
-        String resultNote = "No notes yet";
+        StringBuilder resultNote = new StringBuilder();
         Driver driver = new Driver();
         DriverManager.registerDriver(driver);
         try (Connection conn = DriverManager.getConnection(url, username, password)) {
             Statement statement = conn.createStatement();
             String sql;
-            sql = "SELECT date, text FROM note_table where path='" + path + "'";
+            sql = "SELECT * FROM note_table where path='" + path + "'";
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
                 String date = resultSet.getString("date");
                 String text = resultSet.getString("text");
-                resultNote = date + " : " + text;
+                resultNote.append(date).append(" : ").append(text).append(System.getProperty("line.separator"));
             }
         } catch (Exception ex) {
             System.out.println(ex);
         }
-        return resultNote;
-
-
-//        if (!fileNotes.containsKey(path)) {
-//            fileNotes.put(path, new HashMap<>());
-//        }
-//        Map<String, String> notesMap = fileNotes.get(path);
-//        return notesMap;
-
+        return resultNote.toString();
     }
 
     @Override
@@ -149,7 +138,6 @@ public class SimpleFileDAO implements FileDAO {
         Date currentDate = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         String date = formatter.format(currentDate);
-
         Properties prop = new Properties();
         InputStream input = getClass().getResourceAsStream("/databaseProperties.xml");
         prop.loadFromXML(input);
@@ -158,23 +146,34 @@ public class SimpleFileDAO implements FileDAO {
         String password = prop.getProperty("password");
         try (Connection conn = DriverManager.getConnection(url, username, password)) {
             Statement statement = conn.createStatement();
-            String sql;
-            sql = "INSERT into note_table(path, date, text) values('" + path + "', '" + date + "', '" + text + "')";
-            statement.executeUpdate(sql);
+//            String sqlPath;
+//            sqlPath = "INSERT into path_table(path) values('" + path + "')";
+//            sqlNote = "INSERT into note_table(date, text) values('" + date + "', '" + text + "')";
+            String sqlNote = "INSERT INTO note_table (date, text, path)  values ('" + date + "', '" + text + "', '" + path + "')";
+//            statement.execute(sqlPath);
+            statement.executeUpdate(sqlNote);
         } catch (Exception ex) {
             System.out.println(ex);
         }
-
-
-//        Map<String, String> mapNotes = fileNotes.get(path);
-//        mapNotes.put(date, text);
     }
 
     @Override
-    public void deleteNote(String path) {
+    public void deleteNote(String path) throws IOException, SQLException {
         path = ("/note" + path).replace("root", "file");
-        if (fileNotes.containsKey(path)) {
-            fileNotes.remove(path);
+        Properties prop = new Properties();
+        InputStream input = getClass().getResourceAsStream("/databaseProperties.xml");
+        prop.loadFromXML(input);
+        String url = prop.getProperty("url");
+        String username = prop.getProperty("username");
+        String password = prop.getProperty("password");
+        Driver driver = new Driver();
+        DriverManager.registerDriver(driver);
+        try (Connection conn = DriverManager.getConnection(url, username, password)) {
+            Statement statement = conn.createStatement();
+            String sql = "DELETE FROM note_table where path='" + path + "'";
+            statement.executeUpdate(sql);
+        } catch (Exception ex) {
+            System.out.println(ex);
         }
     }
 }

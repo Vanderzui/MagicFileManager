@@ -34,7 +34,7 @@ public interface FileService {
 
     void makeNote(String path, String text) throws IOException, SQLException;
 
-    void deleteNote(String path);
+    void deleteNote(String path) throws IOException, SQLException;
 
     String getFileName(Part part);
 

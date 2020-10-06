@@ -7,17 +7,12 @@ public class FileModel {
     String text;
     String path;
     String name;
-    private Map<String, String> notes = new HashMap<>();
 
-    public Map<String, String> getNotes() {
-        return notes;
-    }
 
-    public FileModel(String text, String path, String name, Map<String, String> notes) {
+    public FileModel(String text, String path, String name) {
         this.text = text;
         this.path = path;
         this.name = name;
-        this.notes = notes;
     }
 
     public FileModel(String path, String text) {

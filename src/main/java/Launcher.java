@@ -13,21 +13,27 @@ public class Launcher {
 //        System.out.println("Connecting...");
 
 
-        Properties prop = new Properties();
-        InputStream input = Launcher.class.getResourceAsStream("/databaseProperties.xml");
-        prop.loadFromXML(input);
-        String url = prop.getProperty("url");
-        String username = prop.getProperty("username");
-        String password = prop.getProperty("password");
-        try (Connection conn = DriverManager.getConnection(url, username, password)) {
-            Statement statement = conn.createStatement();
-            String sql;
-            sql = "INSERT into note_table(path, date, text) values(" + "'/note/file/alisa.txt'" + ", " + "'05.10.2020'" + ", " + "'hello you'" + ")";
-            statement.executeUpdate(sql);
-        } catch (Exception ex) {
-            System.out.println("Connection failed...");
-            System.out.println(ex);
-        }
+//        Properties prop = new Properties();
+//        InputStream input = Launcher.class.getResourceAsStream("/databaseProperties.xml");
+//        prop.loadFromXML(input);
+//        String url = prop.getProperty("url");
+//        String username = prop.getProperty("username");
+//        String password = prop.getProperty("password");
+//        try (Connection conn = DriverManager.getConnection(url, username, password)) {
+//            Statement statement = conn.createStatement();
+//            String sql;
+//            sql = "INSERT into note_table(path, date, text) values(" + "'/note/file/alisa.txt'" + ", " + "'05.10.2020'" + ", " + "'hello you'" + ")";
+//            statement.executeUpdate(sql);
+//        } catch (Exception ex) {
+//            System.out.println("Connection failed...");
+//            System.out.println(ex);
+//        }
 
+        StringBuilder resultNote = new StringBuilder();
+        resultNote.append("date").append(" : ").append("text").append(System.getProperty("line.separator"));
+        resultNote.append("aaa").append("bbb");
+        System.out.println(resultNote.toString());
+        String s = resultNote.toString();
+        System.out.println(s);
     }
 }

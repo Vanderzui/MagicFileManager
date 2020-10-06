@@ -2,7 +2,7 @@ package com.entities;
 
 import java.util.Date;
 
-public class NoteEntity {
+public class NoteEntity { //надо ваще али нет???
     private String path;
     private String date;
     private String text;
@@ -38,6 +38,11 @@ public class NoteEntity {
         this.path = path;
         this.date = date;
         this.text = text;
+    }
+
+    @Override
+    public String toString() {
+        return  date + " : " + text;
     }
 }
 

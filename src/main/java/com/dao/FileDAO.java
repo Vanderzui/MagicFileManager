@@ -1,11 +1,8 @@
 package com.dao;
-
 import com.entities.FileEntity;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 public interface FileDAO {
     FileEntity openFile(String path) throws IOException;
@@ -24,6 +21,6 @@ public interface FileDAO {
 
     void makeNote(String path, String text) throws IOException, SQLException;
 
-    void deleteNote(String path);
+    void deleteNote(String path) throws IOException, SQLException;
 
 }

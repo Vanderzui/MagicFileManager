@@ -150,7 +150,7 @@ public class SimpleFileService implements FileService {
     }
 
     @Override
-    public void deleteNote(String path) {
+    public void deleteNote(String path) throws IOException, SQLException {
         fileDAO.deleteNote(path);
     }
 
