@@ -17,10 +17,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 public class SimpleFileDAO implements FileDAO {
 
@@ -53,31 +54,43 @@ public class SimpleFileDAO implements FileDAO {
     @Override
     public List<FileEntity> getFileNames(String path) {
         File file = new File(path);
-        List<FileEntity> filesList = new ArrayList<>();
         File[] files = file.listFiles();
-        for (File f : files) {
-            if (f.isFile()) {
-                FileEntity fileEntity = new FileEntity();
-                fileEntity.setName(f.getName());
-                filesList.add(fileEntity);
-            }
-        }
-        return filesList;
+
+//        List<FileEntity> filesList = new ArrayList<>();
+//        for (File f : files) {
+//            if (f.isFile()) {
+//                FileEntity fileEntity = new FileEntity();
+//                fileEntity.setName(f.getName());
+//                filesList.add(fileEntity);
+//            }
+//        }
+        return Arrays.stream(files).filter(File::isFile)
+                .map(f -> {
+                    FileEntity fileEntity = new FileEntity();
+                    fileEntity.setName(f.getName());
+                    return fileEntity;
+                }).collect(Collectors.toList());
     }
+
 
     @Override
     public List<FileEntity> getDirectoryNames(String path) {
         File file = new File(path);
-        List<FileEntity> dirList = new ArrayList<>();
         File[] dirs = file.listFiles();
-        for (File d : dirs) {
-            if (d.isDirectory()) {
-                FileEntity fileEntity = new FileEntity();
-                fileEntity.setName(d.getName());
-                dirList.add(fileEntity);
-            }
-        }
-        return dirList;
+//        List<FileEntity> dirList = new ArrayList<>();
+//        for (File d : dirs) {
+//            if (d.isDirectory()) {
+//                FileEntity fileEntity = new FileEntity();
+//                fileEntity.setName(d.getName());
+//                dirList.add(fileEntity);
+//            }
+//        }
+        return Arrays.stream(dirs).filter(File::isDirectory)
+                .map(d -> {
+                    FileEntity fileEntity = new FileEntity();
+                    fileEntity.setName(d.getName());
+                    return fileEntity;
+                }).collect(Collectors.toList());
     }
 
 
