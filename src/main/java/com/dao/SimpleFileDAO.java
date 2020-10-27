@@ -1,6 +1,7 @@
 package com.dao;
 
 import com.entities.FileEntity;
+import com.exceptions.DataBaseConnectionException;
 import com.mysql.cj.jdbc.Driver;
 import org.apache.commons.io.FileUtils;
 
@@ -42,10 +43,15 @@ public class SimpleFileDAO implements FileDAO {
     }
 
     @Override
-    public FileEntity openFile(String path) throws IOException {
+    public FileEntity openFile(String path){
         FileEntity fileEntity = new FileEntity();
         File file = new File(path);
-        String text = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
+        String text = null;
+        try {
+            text = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         fileEntity.setPath(path);
         fileEntity.setText(text);
         return fileEntity;
@@ -55,15 +61,6 @@ public class SimpleFileDAO implements FileDAO {
     public List<FileEntity> getFileNames(String path) {
         File file = new File(path);
         File[] files = file.listFiles();
-
-//        List<FileEntity> filesList = new ArrayList<>();
-//        for (File f : files) {
-//            if (f.isFile()) {
-//                FileEntity fileEntity = new FileEntity();
-//                fileEntity.setName(f.getName());
-//                filesList.add(fileEntity);
-//            }
-//        }
         return Arrays.stream(files).filter(File::isFile)
                 .map(f -> {
                     FileEntity fileEntity = new FileEntity();
@@ -77,14 +74,6 @@ public class SimpleFileDAO implements FileDAO {
     public List<FileEntity> getDirectoryNames(String path) {
         File file = new File(path);
         File[] dirs = file.listFiles();
-//        List<FileEntity> dirList = new ArrayList<>();
-//        for (File d : dirs) {
-//            if (d.isDirectory()) {
-//                FileEntity fileEntity = new FileEntity();
-//                fileEntity.setName(d.getName());
-//                dirList.add(fileEntity);
-//            }
-//        }
         return Arrays.stream(dirs).filter(File::isDirectory)
                 .map(d -> {
                     FileEntity fileEntity = new FileEntity();
@@ -109,7 +98,8 @@ public class SimpleFileDAO implements FileDAO {
     @Override
     public void write(String path, String text) {
         new File(path).delete();
-        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), StandardCharsets.UTF_8))) {
+        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream(path), StandardCharsets.UTF_8))) {
             writer.write(text);
             writer.newLine();
             writer.flush();
@@ -120,7 +110,7 @@ public class SimpleFileDAO implements FileDAO {
 
 
     @Override
-    public String openNote(String path) throws IOException, SQLException {
+    public String openNote(String path) throws IOException {
         Properties prop = new Properties();
         InputStream input = getClass().getResourceAsStream("/databaseProperties.xml");
         prop.loadFromXML(input);
@@ -128,12 +118,16 @@ public class SimpleFileDAO implements FileDAO {
         String username = prop.getProperty("username");
         String password = prop.getProperty("password");
         StringBuilder resultNote = new StringBuilder();
-        Driver driver = new Driver();
-        DriverManager.registerDriver(driver);
+        Driver driver;
+        try {
+            driver = new Driver();
+            DriverManager.registerDriver(driver);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         try (Connection conn = DriverManager.getConnection(url, username, password)) {
             Statement statement = conn.createStatement();
-            String sql;
-            sql = "SELECT * FROM note_table where path='" + path + "'";
+            String sql = "SELECT * FROM note_table where path='" + path + "'";
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
                 String date = resultSet.getString("date");
@@ -141,13 +135,13 @@ public class SimpleFileDAO implements FileDAO {
                 resultNote.append(date).append(" : ").append(text).append(System.getProperty("line.separator"));
             }
         } catch (Exception ex) {
-            System.out.println(ex);
+            throw new DataBaseConnectionException("Could not connect to DataBase. Check the service state.");
         }
         return resultNote.toString();
     }
 
     @Override
-    public void makeNote(String path, String text) throws IOException, SQLException {
+    public void makeNote(String path, String text) throws IOException {
         Date currentDate = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         String date = formatter.format(currentDate);
@@ -159,19 +153,15 @@ public class SimpleFileDAO implements FileDAO {
         String password = prop.getProperty("password");
         try (Connection conn = DriverManager.getConnection(url, username, password)) {
             Statement statement = conn.createStatement();
-//            String sqlPath;
-//            sqlPath = "INSERT into path_table(path) values('" + path + "')";
-//            sqlNote = "INSERT into note_table(date, text) values('" + date + "', '" + text + "')";
             String sqlNote = "INSERT INTO note_table (date, text, path)  values ('" + date + "', '" + text + "', '" + path + "')";
-//            statement.execute(sqlPath);
             statement.executeUpdate(sqlNote);
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
         }
     }
 
     @Override
-    public void deleteNote(String path) throws IOException, SQLException {
+    public void deleteNote(String path) throws IOException {
         path = ("/note" + path).replace("root", "file");
         Properties prop = new Properties();
         InputStream input = getClass().getResourceAsStream("/databaseProperties.xml");
@@ -179,14 +169,19 @@ public class SimpleFileDAO implements FileDAO {
         String url = prop.getProperty("url");
         String username = prop.getProperty("username");
         String password = prop.getProperty("password");
-        Driver driver = new Driver();
-        DriverManager.registerDriver(driver);
+        Driver driver;
+        try {
+            driver = new Driver();
+            DriverManager.registerDriver(driver);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         try (Connection conn = DriverManager.getConnection(url, username, password)) {
             Statement statement = conn.createStatement();
             String sql = "DELETE FROM note_table where path='" + path + "'";
             statement.executeUpdate(sql);
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
         }
     }
 }

@@ -19,6 +19,7 @@
 <fmt:message bundle="${loc}" key="local.back" var="backback"/>
 <fmt:message bundle="${loc}" key="local.upload" var="uploadF"/>
 <fmt:message bundle="${loc}" key="local.download" var="downloadD"/>
+<fmt:message bundle="${loc}" key="local.chooseFile" var="chooseFile"/>
 
 
 <head>
@@ -80,7 +81,7 @@
 </div>
 <div>
     <form method="post" enctype="multipart/form-data">
-        <input type = "file" name = "file" size = "50" />
+        <input type = "file" name = "file" size = "50"/>
         <br/>
         <input type = "submit" value = "${uploadF}" />
     </form>

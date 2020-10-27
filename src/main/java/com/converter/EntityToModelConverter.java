@@ -6,12 +6,10 @@ import com.model.FileModel;
 public class EntityToModelConverter {
 
     public FileModel fileEntityToFileModel(FileEntity entity) {
-        FileModel fileModel = new FileModel(entity.getText(), entity.getPath(), entity.getName());
-        return fileModel;
+        return new FileModel(entity.getText(), entity.getPath(), entity.getName());
     }
 
     public FileEntity fileModelToFileEntity(FileModel model) {
-        FileEntity fileEntity = new FileEntity(model.getPath(), model.getText());
-        return fileEntity;
+        return new FileEntity(model.getPath(), model.getText());
     }
 }

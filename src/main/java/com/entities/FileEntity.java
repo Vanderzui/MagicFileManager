@@ -1,29 +1,15 @@
 package com.entities;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class FileEntity {
     private String path;
     private String name;
     private String text;
-    private Map<String, String> notes = new HashMap<>();
 
     public FileEntity() {
     }
 
-    public Map<String, String> getNotes() {
-        return notes;
-    }
-
     public FileEntity(String path, String text) {
         this.path = path;
-        this.text = text;
-    }
-
-    public FileEntity(String path, String name, String text) {
-        this.path = path;
-        this.name = name;
         this.text = text;
     }
 

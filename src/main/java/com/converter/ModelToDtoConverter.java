@@ -5,12 +5,10 @@ import com.model.FileModel;
 
 public class ModelToDtoConverter {
     public FileDto fileModelToFileDto(FileModel model) {
-        FileDto fileDto = new FileDto(model.getPath(), model.getName(), model.getText());
-        return fileDto;
+        return new FileDto(model.getPath(), model.getName(), model.getText());
     }
 
     public FileModel fileDtoToFileModel(FileDto fileDto) {
-        FileModel fileModel = new FileModel(fileDto.getPath(), fileDto.getText());
-        return fileModel;
+        return new FileModel(fileDto.getPath(), fileDto.getText());
     }
 }

@@ -17,7 +17,6 @@ import java.io.OutputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 public class SimpleFileService implements FileService {
@@ -26,26 +25,27 @@ public class SimpleFileService implements FileService {
     FileDAO fileDAO = new SimpleFileDAO();
 
     @Override
-    public String getRootDir() throws IOException {
+    public String getRootDir() {
         Properties properties = new Properties();
         InputStream input = getClass().getResourceAsStream("/props.xml");
-        properties.loadFromXML(input);
-        String root = properties.getProperty("ROOT");
-        return root;
+        try {
+            properties.loadFromXML(input);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return properties.getProperty("ROOT");
     }
 
     @Override
     public FileDto openFile(String path) throws IOException {
         FileModel fileModel = entityToModelConverter.fileEntityToFileModel(fileDAO.openFile(path));
-        FileDto fileDto = modelToDtoConverter.fileModelToFileDto(fileModel);
-        return fileDto;
+        return modelToDtoConverter.fileModelToFileDto(fileModel);
     }
 
     @Override
     public FileDto createFile(String path, String fileName) {
         FileModel fileModel = entityToModelConverter.fileEntityToFileModel(fileDAO.createFile(path, fileName));
-        FileDto fileDto = modelToDtoConverter.fileModelToFileDto(fileModel);
-        return fileDto;
+        return modelToDtoConverter.fileModelToFileDto(fileModel);
     }
 
     @Override
@@ -62,14 +62,19 @@ public class SimpleFileService implements FileService {
         InputStream input = getClass().getResourceAsStream("/props.xml");
         prop.loadFromXML(input);
         String icon;
-        if(extension.equals(".txt")) {
-            icon = prop.getProperty(".txt");
-        } else if(extension.equals(".jpg")) {
-            icon = prop.getProperty(".jpg");
-        } else if(extension.equals(".pdf")) {
-            icon = prop.getProperty(".pdf");
-        } else {
-            icon = prop.getProperty("noEx");
+        switch (extension) {
+            case ".txt":
+                icon = prop.getProperty(".txt");
+                break;
+            case ".jpg":
+                icon = prop.getProperty(".jpg");
+                break;
+            case ".pdf":
+                icon = prop.getProperty(".pdf");
+                break;
+            default:
+                icon = prop.getProperty("noEx");
+                break;
         }
         return icon;
     }
@@ -97,8 +102,7 @@ public class SimpleFileService implements FileService {
     @Override
     public FileDto createDirectory(String path, String name) {
         FileModel fileModel = entityToModelConverter.fileEntityToFileModel(fileDAO.createDirectory(path, name));
-        FileDto fileDto = modelToDtoConverter.fileModelToFileDto(fileModel);
-        return fileDto;
+        return modelToDtoConverter.fileModelToFileDto(fileModel);
     }
 
     @Override
@@ -140,8 +144,7 @@ public class SimpleFileService implements FileService {
 
     @Override
     public String openNote(String path) throws IOException, SQLException {
-        String openNote = fileDAO.openNote(path);
-        return openNote;
+        return fileDAO.openNote(path);
     }
 
     @Override
@@ -150,7 +153,7 @@ public class SimpleFileService implements FileService {
     }
 
     @Override
-    public void deleteNote(String path) throws IOException, SQLException {
+    public void deleteNote(String path) throws IOException{
         fileDAO.deleteNote(path);
     }
 
@@ -164,7 +167,6 @@ public class SimpleFileService implements FileService {
 
     public String getFileName(Part part) {
         String contentDisp = part.getHeader("content-disposition");
-        System.out.println("content-disposition header= " + contentDisp);
         String[] tokens = contentDisp.split(";");
         for (String token : tokens) {
             if (token.trim().startsWith("filename")) {

@@ -16,12 +16,11 @@ public class DownloadServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String filePath = req.getPathInfo();
-        FileInputStream fis = new FileInputStream(simpleFileService.getRootDir() + filePath);
-        resp.setContentType("text/plain"); //;charset=UTF-8
-        resp.setHeader("Content-Disposition", "attachment;filename=");
-        OutputStream os = resp.getOutputStream();
-        simpleFileService.downloadFile(fis, os);
+        try (FileInputStream fis = new FileInputStream(simpleFileService.getRootDir() + filePath)) {
+            resp.setContentType("text/plain");
+            resp.setHeader("Content-Disposition", "attachment;filename=");
+            OutputStream os = resp.getOutputStream();
+            simpleFileService.downloadFile(fis, os);
+        }
     }
-
-
 }

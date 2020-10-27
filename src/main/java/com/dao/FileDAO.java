@@ -21,6 +21,6 @@ public interface FileDAO {
 
     void makeNote(String path, String text) throws IOException, SQLException;
 
-    void deleteNote(String path) throws IOException, SQLException;
+    void deleteNote(String path) throws IOException;
 
 }

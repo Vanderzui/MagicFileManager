@@ -1,6 +1,5 @@
 package com.dto;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class FileDto {
