@@ -8,6 +8,11 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
     <display-name>Archetype Created Web Application</display-name>
+
+    <icon>
+        <small-icon>/icons</small-icon>
+    </icon>
+
     <servlet>
         <servlet-name>dirOpenServlet</servlet-name>
         <servlet-class>com.controller.ControllerDirOpenServlet</servlet-class>
@@ -21,7 +26,7 @@
 
     <servlet-mapping>
         <servlet-name>default</servlet-name>
-        <url-pattern>/images/*</url-pattern>
+        <url-pattern>/icons/*</url-pattern>
     </servlet-mapping>
 
 
@@ -35,7 +40,23 @@
         <url-pattern>/file/*</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>NoteServlet</servlet-name>
+        <servlet-class>com.controller.NoteServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>NoteServlet</servlet-name>
+        <url-pattern>/note/*</url-pattern>
+    </servlet-mapping>
 
+    <servlet>
+        <servlet-name>DownloadServlet</servlet-name>
+        <servlet-class>com.controller.DownloadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DownloadServlet</servlet-name>
+        <url-pattern>/download/*</url-pattern>
+    </servlet-mapping>
 
 
 
@@ -43,5 +64,12 @@
         <welcome-file>/index.jsp</welcome-file>
     </welcome-file-list>
 
+
+
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
 
 </web-app>

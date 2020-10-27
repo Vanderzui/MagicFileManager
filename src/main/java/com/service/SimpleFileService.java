@@ -1,33 +1,108 @@
 package com.service;
 
-import org.apache.commons.io.FileUtils;
+import com.converter.EntityToModelConverter;
+import com.converter.ModelToDtoConverter;
+import com.dao.FileDAO;
+import com.dao.SimpleFileDAO;
+import com.dto.FileDto;
+import com.entities.FileEntity;
+import com.model.FileModel;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
+import javax.servlet.http.Part;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class SimpleFileService implements FileService {
+    private final EntityToModelConverter entityToModelConverter = new EntityToModelConverter();
+    private final ModelToDtoConverter modelToDtoConverter = new ModelToDtoConverter();
+    FileDAO fileDAO = new SimpleFileDAO();
+
     @Override
-    public void createFile(String path, String fileName) {
-        File file = new File(path, fileName);
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            System.out.println("Такой файл уже существует");
+    public String getRootDir() {
+        Properties properties = new Properties();
+        InputStream input = getClass().getResourceAsStream("/props.xml");
+        try {
+            properties.loadFromXML(input);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return properties.getProperty("ROOT");
     }
 
     @Override
-    public void createDirectory(String path, String name) {
-        File file = new File(path, name);
-        if (!file.exists()) {
-            file.mkdir();
+    public FileDto openFile(String path) throws IOException {
+        FileModel fileModel = entityToModelConverter.fileEntityToFileModel(fileDAO.openFile(path));
+        return modelToDtoConverter.fileModelToFileDto(fileModel);
+    }
+
+    @Override
+    public FileDto createFile(String path, String fileName) {
+        FileModel fileModel = entityToModelConverter.fileEntityToFileModel(fileDAO.createFile(path, fileName));
+        return modelToDtoConverter.fileModelToFileDto(fileModel);
+    }
+
+    @Override
+    public String getFileExtension(String name) {
+        if(name.contains(".")) {
+            return name.substring(name.lastIndexOf('.'));
         }
+        return "noEx";
+    }
+
+    @Override
+    public String getIcons(String extension) throws IOException {
+        Properties prop = new Properties();
+        InputStream input = getClass().getResourceAsStream("/props.xml");
+        prop.loadFromXML(input);
+        String icon;
+        switch (extension) {
+            case ".txt":
+                icon = prop.getProperty(".txt");
+                break;
+            case ".jpg":
+                icon = prop.getProperty(".jpg");
+                break;
+            case ".pdf":
+                icon = prop.getProperty(".pdf");
+                break;
+            default:
+                icon = prop.getProperty("noEx");
+                break;
+        }
+        return icon;
+    }
+
+    @Override
+    public List<FileDto> getFileNames(String path) throws IOException {
+        List<FileEntity> fileNames = fileDAO.getFileNames(path);
+        List<FileModel> fileModels = new ArrayList<>();
+        for (FileEntity fe : fileNames) {
+            FileModel fileModel = entityToModelConverter.fileEntityToFileModel(fe);
+            fileModel.setName(fe.getName());
+            fileModels.add(fileModel);
+        }
+        List<FileDto> fileDtos = new ArrayList<>();
+        for (FileModel fm : fileModels) {
+            FileDto fileDto = modelToDtoConverter.fileModelToFileDto(fm);
+            fileDto.setName(fm.getName());
+            String icons = getIcons(getFileExtension(fm.getName()));
+            fileDto.setIcon(icons);
+            fileDtos.add(fileDto);
+        }
+        return fileDtos;
+    }
+
+    @Override
+    public FileDto createDirectory(String path, String name) {
+        FileModel fileModel = entityToModelConverter.fileEntityToFileModel(fileDAO.createDirectory(path, name));
+        return modelToDtoConverter.fileModelToFileDto(fileModel);
     }
 
     @Override
@@ -43,103 +118,96 @@ public class SimpleFileService implements FileService {
         }
     }
 
-
     @Override
     public void write(String path, String text) {
-//        FileToModelConverter fTM = new FileToModelConverter();
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File(path), true))) {
-            writer.write(text);
-            writer.newLine();
-            writer.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-//    @Override
-//    public String openFile(String path) {
-//        //писать проверку, что это файл??
-//        String currentLine;
-//        StringBuilder builder = new StringBuilder();
-//        try (BufferedReader bf = new BufferedReader(new FileReader(new File(path)))) {
-//            currentLine = bf.readLine();
-//            while (currentLine != null) {
-//                builder.append(currentLine);
-//                builder.append("\n");
-//                currentLine = bf.readLine();
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return builder.toString();
-//    }
-
-    @Override
-    public String openFile(String path) throws IOException {
-//        byte[] fileBites = Files.readAllBytes(Paths.get(path));
-//        List<String> lines = Files.readAllLines(Paths.get(path));
-//        return new String(fileBites);
-        File file = new File(path);
-        return FileUtils.readFileToString(file, StandardCharsets.UTF_8);
+        FileDAO simpleFileDAO = new SimpleFileDAO();
+        simpleFileDAO.write(path, text);
     }
 
     @Override
-    public List<String> getFileNames(String path) {
-        //изменить на модель!!
-        File file = new File(path);
-        List<String> filesList = new ArrayList<>();
-        File[] files = file.listFiles();
-        for (File f: files) {
-            if(f.isFile()) {
-                filesList.add(f.getName());
-            }
+    public List<FileDto> getDirectoryNames(String path) {
+        List<FileEntity> fileNames = fileDAO.getDirectoryNames(path);
+        List<FileModel> fileModels = new ArrayList<>();
+        for (FileEntity fe : fileNames) {
+            FileModel fileModel = entityToModelConverter.fileEntityToFileModel(fe);
+            fileModel.setName(fe.getName());
+            fileModels.add(fileModel);
         }
-        return filesList;
+        List<FileDto> fileDtos = new ArrayList<>();
+        for (FileModel fm : fileModels) {
+            FileDto fileDto = modelToDtoConverter.fileModelToFileDto(fm);
+            fileDto.setName(fm.getName());
+            fileDtos.add(fileDto);
+        }
+        return fileDtos;
     }
 
     @Override
-    public List<String> getDirectoryNames(String path) {
-        File file = new File(path);
-        List<String> dirList = new ArrayList<>();
-        File[] dirs = file.listFiles();
-        for (File d: dirs) {
-            if(d.isDirectory()) {
-                dirList.add(d.getName());
-            }
-        }
-        return dirList;
+    public String openNote(String path) throws IOException, SQLException {
+        return fileDAO.openNote(path);
     }
 
-//    @Override
-//    public List<String> getNames(String path, String fileName) {
-//        File file = new File(path, fileName);
-//        List<String> list;
-//        if(file.isFile()) {
-//            list = getFileNames(path, fileName);
-//        } else {
-//            list = getDirectoryNames(path, fileName);
-//        }
-//        return list;
-//    }
+    @Override
+    public void makeNote(String path, String text) throws IOException, SQLException {
+        fileDAO.makeNote(path, text);
+    }
 
-    private void wrongOpen(String pathName, String fileName) {
-        BufferedInputStream readFile = null;
-        try {
-            readFile = new BufferedInputStream(new FileInputStream(new File(pathName, fileName)), 200);
-            int i;
-            while ((i = readFile.read()) != -1) {
-                System.out.print((char) i);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (readFile != null) {
-                try {
-                    readFile.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+    @Override
+    public void deleteNote(String path) throws IOException{
+        fileDAO.deleteNote(path);
+    }
+
+    @Override
+    public String checkURL(String path) {
+        if (path.endsWith("/")) {
+            path = path.substring(0, path.length() - 1);
+        }
+        return path;
+    }
+
+    public String getFileName(Part part) {
+        String contentDisp = part.getHeader("content-disposition");
+        String[] tokens = contentDisp.split(";");
+        for (String token : tokens) {
+            if (token.trim().startsWith("filename")) {
+                return token.substring(token.indexOf("=") + 2, token.length() - 1);
             }
         }
+        return "";
+    }
+
+    public void downloadFile(FileInputStream fileInputStream, OutputStream os) throws IOException {
+        int BYTES_DOWNLOAD = 1024;
+        int read = 0;
+        byte[] bytes = new byte[BYTES_DOWNLOAD];
+        while ((read = fileInputStream.read(bytes)) != -1) {
+            os.write(bytes, 0, read);
+        }
+        os.flush();
+        os.close();
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

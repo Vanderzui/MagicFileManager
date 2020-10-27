@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.dto.FileDto;
 import com.service.FileService;
 import com.service.SimpleFileService;
 
@@ -14,34 +15,33 @@ import java.io.IOException;
 
 @WebServlet(name = "com.controller.FileThingsServlet")
 public class FileThingsServlet extends HttpServlet {
-    private FileService simpleFileService =  new SimpleFileService();
-    public String root = "D:/myDir";
+    private final FileService simpleFileService = new SimpleFileService();
+
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-            String contextPath = root + req.getRequestURI().substring(5);
-            if(new File(contextPath).isFile()) {
-                String open = simpleFileService.openFile(contextPath);
-                req.setAttribute("result", open);
-                req.setAttribute("close", req.getRequestURL());
-                RequestDispatcher requestDispatcher = req.getRequestDispatcher(req.getContextPath() + "/openFile.jsp");
-                requestDispatcher.forward(req, resp);
-            }
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        String contextPath = simpleFileService.getRootDir() + req.getRequestURI().substring(5);
+        if (new File(contextPath).isFile()) {
+            FileDto open = simpleFileService.openFile(contextPath);
+            req.setAttribute("result", open.getText());
+            req.setAttribute("close", simpleFileService.checkURL(
+                    req.getRequestURI()).replace("file", "root") + "/..");
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher(
+                    req.getContextPath() + "/openFile.jsp");
+            requestDispatcher.forward(req, resp);
         }
+    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String input = req.getParameter("input");
-        String contextPath = root + req.getRequestURI().substring(5);
-        simpleFileService.write(contextPath, input);
-        String change = simpleFileService.openFile(contextPath) + input;
-        req.setAttribute("result", change);
+        req.setCharacterEncoding("UTF-8");
+        if (req.getParameter("local") != null) {
+            req.getSession(true).setAttribute("local", req.getParameter("local"));
+        } else {
+            String input = req.getParameter("input");
+            String contextPath = simpleFileService.getRootDir() + req.getRequestURI().substring(5);
+            simpleFileService.write(contextPath, input);
+        }
         doGet(req, resp);
     }
-
-//    @Override
-//    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        simpleFileService.delete(root + req.getRequestURI());
-//        RequestDispatcher rd = req.getRequestDispatcher("index.jsp");
-//        rd.forward(req, resp);
-//    }
 }
