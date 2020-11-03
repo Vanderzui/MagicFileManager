@@ -25,7 +25,6 @@
     <textarea rows="50" cols="100" input type="text" name="input">
         ${result}
     </textarea>
-<%--    <input type="text" name="input" >--%>
     <br>
     <button type="submit">${submitS}</button>
     <br>
